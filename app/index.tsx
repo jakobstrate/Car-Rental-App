@@ -1,15 +1,39 @@
-import { Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
+  const router = useRouter();
   return (
     <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+      style={styles.view}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Text style={styles.title}>
+        PrimeCar
+      </Text>
+      <TouchableOpacity style={styles.button} onPress={() => router.navigate("/Discover")}>
+          <Text style={styles.btnText}>Enter Location</Text>
+      </TouchableOpacity>
+        
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  view: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 64,
+    margin: 10,
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+  },
+  btnText: {
+    fontSize: 24,
+  }
+});
