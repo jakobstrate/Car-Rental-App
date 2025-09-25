@@ -1,78 +1,137 @@
+import NavButton from "@/Components/NavButton";
+import GradientNavButton from "@/Components/GradientNavButton";
 import { router } from "expo-router";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function Login() {
-  return (
-    <View
-      style={styles.view}
-    >
-      <Text style={styles.title}>
-        PrimeCar
-      </Text>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputTitle}>Username:</Text>
-        <TextInput style={styles.inputBar}>Username</TextInput>
-        <Text style={styles.inputTitle}>Password:</Text>
-        <TextInput style={styles.inputBar}>Password</TextInput>
-      </View>
-      <View style={styles.btnContainer}>
-        <TouchableOpacity style={styles.loginBtn} onPress={() => router.navigate("/Discover")}>
-            <Text style={styles.loginBtnText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.registerBtn} onPress={() => router.navigate("/Register")}>
-            <Text style={styles.registerBtnText}>Already registered? Register Here</Text>
-        </TouchableOpacity>
-      </View>
-      
-        
-    </View>
-  );
+    return (
+        <View
+            style={styles.view}
+        >
+            <Text style={styles.title}>
+                PrimeCar
+            </Text>
+            <View style={styles.inputContainer}>
+                <Text style={styles.inputTitle}>Username:</Text>
+                <TextInput style={styles.inputBar}></TextInput>
+                <Text style={styles.inputTitle}>Password:</Text>
+                <TextInput style={styles.inputBar}></TextInput>
+            </View>
+            <View style={styles.btnContainer}>
+                <GradientNavButton
+                    buttonStyle={styles.loginBtn}
+                    onPress={() => router.navigate("/Discover")}
+                    textStyle={styles.loginBtnText}
+                    text="Login"
+                    colors={["#0093CB", "#1E7A9D"]}
+                >
+                </GradientNavButton>
+                <NavButton
+                    buttonStyle={styles.registerBtn}
+                    onPress={() => router.navigate("/Register")}
+                    textStyle={styles.registerBtnText}
+                    text="Don't have an account? Register here"
+                >
+                </NavButton>
+            </View>
+
+
+        </View>
+    );
 }
 
 
 const styles = StyleSheet.create({
-  view: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 64,
-    margin: 10,
-  },
-  btnContainer: {
-    gap: 5
-  },
-  loginBtn: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-  },
-  registerBtn: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    width: '100%',
-    height: 40,
-    justifyContent: 'center'
-  },
-  loginBtnText: {
-    fontSize: 24,
-  },
-  registerBtnText: {
-    fontSize: 12,
-  },
-  inputContainer: {
-    width: '80%',
-    height: '60%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  inputBar: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    width: '100%',
-  },
-  inputTitle: {
-    width: '100%',
-    
-  },
+    view: {
+        justifyContent: "center",
+        alignItems: "center",
+    },
+
+    title: {
+        fontSize: 60,
+        color: "#005ACD",
+
+        textShadowColor: "#000000",
+        textShadowOffset: {
+            width: 3,
+            height: 3,
+        },
+
+        textShadowRadius: 4,
+        margin: 10,
+    },
+
+    btnContainer: {
+        gap: 10,
+        width: "60%",
+    },
+
+    loginBtn: {
+        borderRadius: 15,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+
+        shadowOpacity: 0.25,
+        shadowRadius: 0,
+        elevation: 4,
+    },
+
+    loginBtnText: {
+        fontSize: 36,
+        color: "#F5FFFF",
+    },
+
+    registerBtn: {
+        padding: 10,
+        color: "#D9D9D9",
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+
+        shadowOpacity: 0.25,
+        shadowRadius: 0,
+        elevation: 4,
+    },
+
+    registerBtnText: {
+        fontSize: 12,
+        color: "#000000"
+    },
+
+    inputContainer: {
+        width: '80%',
+        height: '60%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    inputBar: {
+        alignItems: 'center',
+        borderRadius: 15,
+        backgroundColor: '#F1F1F1',
+        width: '100%',
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+
+        shadowOpacity: 0.25,
+        shadowRadius: 0,
+        elevation: 4,
+
+        marginBottom: 30,
+    },
+
+    inputTitle: {
+        width: '100%',
+        fontSize: 20,
+    },
 });
