@@ -8,10 +8,36 @@ export type Car = {
   image: ImageSourcePropType;
   color: string;
   description: string;
-  carType: string;
-  transmission: string;
-  fuelType: string;
+  carType: CarType;
+  transmission: TransmissionType;
+  fuelType: FuelType;
   mileage: string;
   numberOfSeats: number;
+  extras: string[];
   isAvailable: boolean;
 };
+
+enum CarType {
+  SUV,
+  Sedan,
+  Hatchback,
+  Coupe,
+  Convertible,
+  Truck,
+  Van,
+  Wagon,
+  SportsCar,
+}
+
+enum TransmissionType { 
+  Automatic,
+  Manual,
+  SemiAutomatic,
+}
+
+enum FuelType {
+  Petrol,
+  Diesel,
+  Electric,
+  Hybrid,
+}
