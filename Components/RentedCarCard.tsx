@@ -1,11 +1,12 @@
-import { router } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
+
+
 export default function RentedCarCard({ name, due, deadline, rentPeriod, image }) {
   return (
-    <TouchableOpacity style={styles.container} onPress={() => router.push({pathname:"/CarDetails", params: { carId: 2} }) }>
+    <TouchableOpacity style={styles.container}>
       <View style={styles.detailsBox}>
         <Text style={styles.carTitle}>{name}</Text>
         <Text>Due Cost: {due}</Text>

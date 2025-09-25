@@ -1,27 +1,21 @@
-import { Tabs } from "expo-router";
+//import { Tabs } from "expo-router";
+import DiscoverStack from "@/app/DiscoverStack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Index from "./index";
+import MyRentals from "./MyRentals";
 
-export default function RootLayout() {
-    return <Tabs screenOptions={{
-            headerShown: false,
-        }}>
-        <Tabs.Screen
-            name="Discover"
-            options={{
-                title: "Discover",
-            }}
-        />
-        <Tabs.Screen
-            name="index"
-            options={{
-                title: "Home",
-            }}
-        />
-        <Tabs.Screen
-            name="MyRentals"
-            options={{
-                title: "My Rentals",
-            }}
-        />
+const Tab = createBottomTabNavigator();
 
-    </Tabs>
+export default function App() {
+  return (
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Tab.Screen name="DiscoverStack" component={DiscoverStack} />
+        <Tab.Screen name="Home" component={Index} />
+        <Tab.Screen name="MyRentals" component={MyRentals} />
+      </Tab.Navigator>
+  );
 }

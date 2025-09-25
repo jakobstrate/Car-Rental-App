@@ -17,7 +17,7 @@ export type Car = {
   isAvailable: boolean;
 };
 
-enum CarType {
+export enum CarType {
   SUV,
   Sedan,
   Hatchback,
@@ -29,13 +29,13 @@ enum CarType {
   SportsCar,
 }
 
-enum TransmissionType { 
+export enum TransmissionType { 
   Automatic,
   Manual,
   SemiAutomatic,
 }
 
-enum FuelType {
+export enum FuelType {
   Petrol,
   Diesel,
   Electric,
