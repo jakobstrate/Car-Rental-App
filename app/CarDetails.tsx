@@ -1,21 +1,23 @@
-import type { Car } from "@/types/Car";
-import { router } from 'expo-router';
+import BackIcon from "@/assets/images/icons/BackIcon.svg";
+import { RootStackParamList } from "@/types/navigation";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
+type Props = NativeStackScreenProps<RootStackParamList, "CarDetails">;
 
-export default function CarDetails({ car }:{car: Car}) {
+export default function CarDetails({ navigation, route }: Props) {
+
     return (
         <View style={styles.container}>
           <View style={styles.topBar}>
-            <TouchableOpacity style={styles.backBtn} onPress={() => router.navigate('/(tabs)/MyRentals')}><Text>Back</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}><BackIcon width={42} height={42}/></TouchableOpacity>
             <Text style={styles.title}>Coca Kapow</Text>
-            <TouchableOpacity style={styles.likeBtn}><Text>Like</Text></TouchableOpacity>
           </View>
           <ScrollView style={styles.bodyScrollView} contentContainerStyle={{alignItems: 'center', gap:10}}>
             <Image source={require("@/assets/images/placeholder.png")} style={styles.carImg} />
             <Text>Cost: 100 pr day</Text>
             <View style={styles.detailsView}>
-              <Text>this is a car</Text>
+              <Text>a</Text>
             </View>
             <TextInput style={styles.datePicker}>Dates Selected</TextInput>
             <TouchableOpacity style={styles.confirmBtn}><Text style={styles.confirmTxt}>Confirm</Text></TouchableOpacity>
@@ -36,18 +38,20 @@ const styles = StyleSheet.create({
     height: '10%',
     flexDirection: 'row',
     backgroundColor: '#2323',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   backBtn: {
-    backgroundColor: '#7e7e7eff', 
-  },
-  likeBtn: {
-    backgroundColor: '#7e7e7eff', 
+    //backgroundColor: '#7e7e7eff', 
+    
   },
   title: {
+    position: 'absolute',
     fontSize: 48,
     fontWeight: "bold",
+    left: "50%",
+    transform: [{ translateX: "-50%" }],
+    
   },
   bodyScrollView: {
     height: '100%',

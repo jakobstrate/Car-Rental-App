@@ -22,7 +22,7 @@ export default function Discover() {
             <ScrollView horizontal={true} style={styles.filterBarScrollview} 
             contentContainerStyle={styles.filterBarRow} showsHorizontalScrollIndicator={false}>
                 
-                <FilterScrollviewBtn typeName={"SUV"} />
+                <FilterScrollviewBtn typeName={"SUV" } />
                 <FilterScrollviewBtn typeName={"SC"} />
                 <FilterScrollviewBtn typeName={"Truck"} />
                 <FilterScrollviewBtn typeName={"SUV"} />
