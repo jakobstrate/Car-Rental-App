@@ -18,26 +18,26 @@ export type Car = {
 };
 
 export enum CarType {
-  SUV,
-  Sedan,
-  Hatchback,
-  Coupe,
-  Convertible,
-  Truck,
-  Van,
-  Wagon,
-  SportsCar,
+  SUV='SUV',
+  Sedan='Sedan',
+  Hatchback='Hatchback',
+  Coupe='Coupe',
+  Convertible='Covertible',
+  Truck='Truck',
+  Van='Van',
+  Wagon='Wagon',
+  SportsCar='Sports Car',
 }
 
 export enum TransmissionType { 
-  Automatic,
-  Manual,
-  SemiAutomatic,
+  Automatic='Automatic',
+  Manual='Manual',
+  SemiAutomatic='Semi-Automatic',
 }
 
 export enum FuelType {
-  Petrol,
-  Diesel,
-  Electric,
-  Hybrid,
+  Petrol='Petrol',
+  Diesel='Diesel',
+  Electric='Electric',
+  Hybrid='Hybrid',
 }

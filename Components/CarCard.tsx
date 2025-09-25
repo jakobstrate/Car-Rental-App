@@ -6,11 +6,11 @@ import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const testCar : Car = {
-  brand: "Coca",
-  modelName: "Kapow",
+  brand: "Volkswagen",
+  modelName: "Polo",
   modelYear: 2020,
   rentPerHour: 100,
-  image: require('@/assets/images/placeholder.png'),
+  image: require('@/assets/images/vwpolo.png'),
   color: "Red",
   description: "A fast car, that sucks fluids.",
   carType: CarType.SportsCar,
@@ -18,7 +18,7 @@ const testCar : Car = {
   fuelType: FuelType.Petrol,
   mileage: "0.001 km/l",
   numberOfSeats: 4,
-  extras: ["GPS", "Bluetooth"],
+  extras: ["GPS", "Bluetooth", "Jerker"],
   isAvailable: true,
 }
 
