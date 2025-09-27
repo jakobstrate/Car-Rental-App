@@ -15,13 +15,6 @@ export default function DateRangePicker({ startDate, endDate, onChange } : Props
   const [selectingStart, setSelectingStart] = React.useState(true);
 
   const handleChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    console.log("-----------------------------");
-    console.log("Event type:", event.type);
-    console.log("Selected date:", selectedDate);
-    console.log("Current start date:", startDate);
-    console.log("Current end date:", endDate);
-    console.log("Selecting start:", selectingStart);
-    console.log("showing:", show);
 
     if (event.type === "dismissed") {
       setShow(false);
