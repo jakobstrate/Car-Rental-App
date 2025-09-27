@@ -9,7 +9,7 @@ export default function DiscoverStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Discover" component={DiscoverScreen} />
-      <Stack.Screen name="CarDetails" component={CarDetailsScreen} />
+      <Stack.Screen name="CarDetails" component={CarDetailsScreen}  />
     </Stack.Navigator>
   );
 }

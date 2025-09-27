@@ -1,11 +1,12 @@
+import CalendarIcon from "@/assets/images/icons/CalendarIcon.svg";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import React from "react";
-import { Button, Platform, StyleSheet, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
-  startDate: Date | null;
-  endDate: Date | null;
-  onChange: (start: Date | null, end: Date | null) => void;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
+  onChange: (start: Date | undefined, end: Date | undefined) => void;
 };
 
 
@@ -13,54 +14,80 @@ export default function DateRangePicker({ startDate, endDate, onChange } : Props
   const [show, setShow] = React.useState(false);
   const [selectingStart, setSelectingStart] = React.useState(true);
 
-  const handleChange = (_: DateTimePickerEvent, selectedDate?: Date) => {
-    setShow(false);
-    if (!selectedDate) return;
+  const handleChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    console.log("-----------------------------");
+    console.log("Event type:", event.type);
+    console.log("Selected date:", selectedDate);
+    console.log("Current start date:", startDate);
+    console.log("Current end date:", endDate);
+    console.log("Selecting start:", selectingStart);
+    console.log("showing:", show);
 
-
-    
-    if (selectingStart) {
-      onChange(selectedDate, endDate);
-      setSelectingStart(false);
-    } else {
-      if (startDate && selectedDate < startDate) {
-        alert("End date cannot be before start date");
-        return;
-      }
-      onChange(startDate, selectedDate);
-      setSelectingStart(true);
+    if (event.type === "dismissed") {
+      setShow(false);
+      return;
     }
+
+    if (event.type === "set" && selectedDate) {
+      if (selectingStart) {
+        onChange(selectedDate, endDate);
+        setSelectingStart(false);
+        // had to delay showing so that the picker repoens after selecting start date,
+        //  this seemed to be due to date time picker taking time to unmount/remount
+        setShow(false);
+        setTimeout(() => setShow(true), 0);  
+      } else {
+        if (startDate && selectedDate < startDate) {
+          alert("End date cannot be before start date");
+          return;
+        }
+        onChange(startDate, selectedDate);
+        setSelectingStart(true);
+        setShow(false);
+      }
+    }
+    console.log("Selecting start:", selectingStart);
   };
 
   return (
     <View style={styles.container}>
-      <Button
-        title={startDate ? startDate.toDateString() : "Select Start Date"}
-        onPress={() => {
+      <Text style={styles.label}>
+        Date
+      </Text>
+      <TouchableOpacity style={styles.datePickerBtn}
+      onPress={() => {
           setSelectingStart(true);
           setShow(true);
-        }}
-      />
+        }}>
+        <Text style={styles.datePickerBtnText}>
+            {startDate
+            ? `${startDate.toLocaleDateString("en-GB")}`
+            : "---"}
+        </Text>
+        <Text style={styles.datePickerBtnText}>
+            To
+        </Text>
+        <Text style={styles.datePickerBtnText}>
+            {endDate
+            ? `${endDate.toLocaleDateString("en-GB")}`
+            : "---"}
+        </Text>
+        <CalendarIcon width={24} height={24} />
+      </TouchableOpacity>
+      <Text style={styles.trailingTxt}>
+        DD/MM/YYYY
+      </Text>
+      
 
-      <Button
-        title={endDate ? endDate.toDateString() : "Select End Date"}
-        onPress={() => {
-          if (!startDate) {
-            alert("Please select start date first");
-            return;
-          }
-          setSelectingStart(false);
-          setShow(true);
-        }}
-      />
 
       {show && (
         <DateTimePicker
           value={new Date()}
           mode="date"
-          display={Platform.OS === "ios" ? "inline" : "inline"}
+          display={"default"}
           minimumDate={!selectingStart ? startDate || undefined : undefined}
           onChange={handleChange}
+          
         />
       )}
     </View>
@@ -69,12 +96,43 @@ export default function DateRangePicker({ startDate, endDate, onChange } : Props
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    gap: 5, 
+    flexDirection: 'column',
     alignItems: 'center',
     height: 50,
-    width: '100%',
+    width: '70%',
     justifyContent: 'center',
-    marginTop: 10,
+    borderColor: '#0093cbff',
+    borderWidth: 2,
+    borderRadius: 5,
+    gap: 2,
   },
+  datePickerBtn: {
+    height: '80%',
+    width: '100%',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  datePickerBtnText: {
+    color: 'black',
+    fontSize: 16,
+    fontWeight: '400',
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    alignSelf: 'flex-start',
+    color: '#0093cbff',
+    left: 15,
+    backgroundColor: '#ffffffff',
+    paddingHorizontal: 5,
+    top: 2,
+  },
+  trailingTxt: {
+    fontSize: 12,
+    fontWeight: '400',
+    alignSelf: 'flex-start',
+    left: 15,
+    color: '#7e7e7eff',
+  }
 });

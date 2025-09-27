@@ -36,8 +36,8 @@ export default function CarDetails({ navigation, route }: Props) {
     </View>
   );
   
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
 
     return (
         <View style={styles.container}>
@@ -45,7 +45,7 @@ export default function CarDetails({ navigation, route }: Props) {
             <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}><BackIcon width={42} height={42}/></TouchableOpacity>
             <Text style={styles.title} adjustsFontSizeToFit= {true}>{route.params.car.brand +" "+ route.params.car.modelName}</Text>
           </View>
-          <ScrollView style={styles.bodyScrollView} contentContainerStyle={{alignItems: 'center', gap: 10}}>
+          <ScrollView style={styles.bodyScrollView} contentContainerStyle={{alignItems: 'center', gap: 10, paddingBottom: 100}}>
             <Image source={route.params.car.image} style={styles.carImg}/>
             <View style={styles.rentInfo}>
               <Text style={styles.rentCostText}>Rent cost :</Text>
@@ -84,6 +84,7 @@ export default function CarDetails({ navigation, route }: Props) {
             
           </ScrollView>
           <View style={styles.bottomBar}>
+            
               <DateRangePicker
               startDate={startDate}
               endDate={endDate}
@@ -93,11 +94,6 @@ export default function CarDetails({ navigation, route }: Props) {
               }}
             />
 
-              {startDate && endDate && (
-                <Text style={{ marginTop: 10, fontSize: 16 }}>
-                  Rental period: {startDate.toDateString()} → {endDate.toDateString()}
-                </Text>
-              )}
               <View style={styles.confirmRentalBar}>
                 <View>
                   <Text style={styles.totalCostText}>Total Cost: </Text>
@@ -106,6 +102,9 @@ export default function CarDetails({ navigation, route }: Props) {
                 
                 <TouchableOpacity style={styles.confirmBtn}><Text style={styles.confirmTxt}>Confirm</Text></TouchableOpacity>
               </View>
+              <Text style={styles.confirmRentalDiscTxt}>* upon returning the vehicle, the cost of the rent is reduces based on time remaining till deadline,
+and an additional cost is added based on fuel consumption.
+</Text>
             </View>
         </View>
         
@@ -141,9 +140,11 @@ const styles = StyleSheet.create({
     transform: [{ translateX: "-50%" }],
   },
   bodyScrollView: {
+    flexGrow: 1,
     height: '100%',
     width: '100%',
     backgroundColor: '#ffffffff',
+
   },
   carImg: {
     height: 200,
@@ -187,6 +188,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffffff',
   },
+  confirmRentalDiscTxt: {
+    fontSize: 8,
+    color: '#7e7e7eff',
+    width: '95%',
+    textAlign: 'center',
+  },
   extrasSection: {
     height: 100,
     width: '100%',
@@ -195,12 +202,18 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     flexDirection: 'column',
+    height: '20%',
+    justifyContent: 'space-between',
+    paddingBottom: 10,
+    paddingTop: 10,
   },
   confirmRentalBar: {
     width: '100%',
     height: 60,
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
+    paddingLeft: 20,
+    paddingRight: 20,
     alignItems: 'center',
   },
   totalCostText: {
