@@ -1,12 +1,43 @@
+import { Booking } from '@/types/Booking';
+import { Car, CarType, FuelType, TransmissionType } from "@/types/Car";
+import { RootStackParamList } from "@/types/navigation";
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+const testCar : Car = {
+  brand: "Volkswagen",
+  modelName: "Polo",
+  modelYear: 2020,
+  rentPerHour: 100,
+  image: require('@/assets/images/vwpolo.png'),
+  color: "Red",
+  description: "A fast car, that sucks fluids.",
+  carType: CarType.SportsCar,
+  transmission: TransmissionType.Automatic,
+  fuelType: FuelType.Petrol,
+  mileage: "0.001 km/l",
+  numberOfSeats: 4,
+  extras: ["GPS", "Bluetooth", "Jerker"],
+  isAvailable: true,
+}
 
 
+const testBooking : Booking = {
+  car: testCar,
+  rentalStart: new Date(),
+  rentalEnd: new Date(new Date().getTime() + 2 * 60 * 60 * 1000), 
+  totalCost: 69.000,
+}
+
+type MyRentalsNavProp = NativeStackNavigationProp<RootStackParamList, "MyRentals">;
 
 export default function RentedCarCard({ name, due, deadline, rentPeriod, image }) {
+  const navigation = useNavigation<MyRentalsNavProp>();
+
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("BookingDetails", { booking: testBooking })}>
       <View style={styles.detailsBox}>
         <Text style={styles.carTitle}>{name}</Text>
         <Text>Due Cost: {due}</Text>

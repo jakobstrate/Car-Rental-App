@@ -39,7 +39,6 @@ export default function DateRangePicker({ startDate, endDate, onChange } : Props
         setShow(false);
       }
     }
-    console.log("Selecting start:", selectingStart);
   };
 
   return (

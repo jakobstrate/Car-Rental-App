@@ -30,14 +30,14 @@ export enum CarType {
 }
 
 export enum TransmissionType { 
-  Automatic='Automatic',
-  Manual='Manual',
-  SemiAutomatic='Semi-Automatic',
+  Automatic='AUTOMATIC',
+  Manual='MANUAL',
+  SemiAutomatic='SEMI-AUTOMATIC',
 }
 
 export enum FuelType {
-  Petrol='Petrol',
-  Diesel='Diesel',
-  Electric='Electric',
-  Hybrid='Hybrid',
+  Petrol='PETROL',
+  Diesel='DIESEL',
+  Electric='ELECTRIC',
+  Hybrid='HYBRID',
 }
