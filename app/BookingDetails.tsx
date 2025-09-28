@@ -3,6 +3,7 @@ import FuelTypeIcon from "@/assets/images/icons/FuelTypeIcon.svg";
 import MileageIcon from "@/assets/images/icons/MileageIcon.svg";
 import TransmissionTypeIcon from "@/assets/images/icons/TransmissionIcon.svg";
 import DateRangeViewBar from "@/Components/DateRangeViewBar";
+import { useBookings } from '@/context/BookingContext';
 import { RootStackParamList } from "@/types/navigation";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -18,7 +19,13 @@ type CarInfoCard = {
 
 
 export default function BookingDetails({ navigation, route }: Props) {
-  console.log(route.params.booking);
+  const { removeBooking } = useBookings();
+  const cancelBooking = () => {    
+  
+    removeBooking(route.params.booking);
+    navigation.navigate("MyRentals");
+  }
+  
   const BasicCarInfoCard: React.FC<CarInfoCard> = ({Icon,typeTxt, valueTxt}) => (
     <View style={basicCarInfoCardStyle.container}>
       <Icon width={32} height={32}/>
@@ -93,7 +100,7 @@ export default function BookingDetails({ navigation, route }: Props) {
                   <Text style={styles.totalCostValueText}>{route.params.booking.totalCost + "DKK"}</Text>
                 </View>
                 
-                <TouchableOpacity style={styles.cancelBtn}><Text style={styles.cancelTxt}>Cancel</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.cancelBtn} onPress={() => cancelBooking()}><Text style={styles.cancelTxt}>Cancel</Text></TouchableOpacity>
               </View>
               <Text style={styles.cancelRentalDiscTxt}>* upon returning the vehicle, the cost of the rent is reduces based on time remaining till deadline,
 and an additional cost is added based on fuel consumption.

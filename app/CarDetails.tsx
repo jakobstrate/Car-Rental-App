@@ -3,11 +3,16 @@ import FuelTypeIcon from "@/assets/images/icons/FuelTypeIcon.svg";
 import MileageIcon from "@/assets/images/icons/MileageIcon.svg";
 import TransmissionTypeIcon from "@/assets/images/icons/TransmissionIcon.svg";
 import DateRangePicker from "@/Components/DateRangePicker";
+import { useBookings } from "@/context/BookingContext";
+import { Booking } from "@/types/Booking";
+import { Car } from "@/types/Car";
 import { RootStackParamList } from "@/types/navigation";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SvgProps } from "react-native-svg";
+
+type MyRentalsNavProp = NativeStackNavigationProp<RootStackParamList, "MyRentals">;
 
 type Props = NativeStackScreenProps<RootStackParamList, "CarDetails">;
 
@@ -17,9 +22,34 @@ type CarInfoCard = {
   valueTxt: string;
 };
 
+const totalCost = (startDate: Date | undefined, endDate: Date | undefined, rentPerHour: number): number => {
+  if (!startDate || !endDate) return 0;
+  return (( (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60) ) * rentPerHour);
+}
 
 export default function CarDetails({ navigation, route }: Props) {
+  const { addBooking } = useBookings();
   
+
+  const confirmBooking = (car: Car, startDate: Date | undefined, endDate: Date | undefined) => {
+    
+    
+    if (!startDate || !endDate) {
+      alert("Please select rental dates");
+      return;
+    }
+
+    const newBooking: Booking = {
+      car: car,
+      rentalStart: startDate.toISOString(),
+      rentalEnd: endDate.toISOString(),
+      totalCost: totalCost(startDate, endDate, car.rentPerHour),
+    };
+
+    addBooking(newBooking);
+    navigation.navigate("MyRentalsStack", { screen: "MyRentals" });
+  }
+
   const BasicCarInfoCard: React.FC<CarInfoCard> = ({Icon,typeTxt, valueTxt}) => (
     <View style={basicCarInfoCardStyle.container}>
       <Icon width={32} height={32}/>
@@ -97,10 +127,12 @@ export default function CarDetails({ navigation, route }: Props) {
               <View style={styles.confirmRentalBar}>
                 <View>
                   <Text style={styles.totalCostText}>Total Cost: </Text>
-                  <Text style={styles.totalCostValueText}>{startDate && endDate ? (( (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60) ) * route.params.car.rentPerHour).toFixed(2) : "0"} Dkk</Text>
+                  <Text style={styles.totalCostValueText}>{totalCost(startDate,endDate,route.params.car.rentPerHour)} Dkk</Text>
                 </View>
                 
-                <TouchableOpacity style={styles.confirmBtn}><Text style={styles.confirmTxt}>Confirm</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.confirmBtn} onPress={() => confirmBooking(route.params.car, startDate, endDate)}>
+                        <Text style={styles.confirmTxt}>Confirm</Text>
+                </TouchableOpacity>
               </View>
               <Text style={styles.confirmRentalDiscTxt}>* upon returning the vehicle, the cost of the rent is reduces based on time remaining till deadline,
 and an additional cost is added based on fuel consumption.
