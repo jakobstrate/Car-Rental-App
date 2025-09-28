@@ -127,7 +127,7 @@ export default function CarDetails({ navigation, route }: Props) {
               <View style={styles.confirmRentalBar}>
                 <View>
                   <Text style={styles.totalCostText}>Total Cost: </Text>
-                  <Text style={styles.totalCostValueText}>{totalCost(startDate,endDate,route.params.car.rentPerHour)} Dkk</Text>
+                  <Text style={styles.totalCostValueText}>{totalCost(startDate,endDate,route.params.car.rentPerHour).toFixed(2)} Dkk</Text>
                 </View>
                 
                 <TouchableOpacity style={styles.confirmBtn} onPress={() => confirmBooking(route.params.car, startDate, endDate)}>

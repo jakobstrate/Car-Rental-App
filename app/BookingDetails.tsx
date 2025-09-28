@@ -97,7 +97,7 @@ export default function BookingDetails({ navigation, route }: Props) {
               <View style={styles.cancelRentalBar}>
                 <View>
                   <Text style={styles.totalCostText}>Total Cost: </Text>
-                  <Text style={styles.totalCostValueText}>{route.params.booking.totalCost + "DKK"}</Text>
+                  <Text style={styles.totalCostValueText}>{route.params.booking.totalCost.toFixed(2) + "DKK"}</Text>
                 </View>
                 
                 <TouchableOpacity style={styles.cancelBtn} onPress={() => cancelBooking()}><Text style={styles.cancelTxt}>Cancel</Text></TouchableOpacity>
