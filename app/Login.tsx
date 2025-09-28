@@ -1,44 +1,66 @@
-import NavButton from "@/Components/NavButton";
+import React, { useState } from "react";
+import { StyleSheet, Text, TextInput, View, Alert } from "react-native";
 import GradientNavButton from "@/Components/GradientNavButton";
+import NavButton from "@/Components/NavButton";
 import { router } from "expo-router";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
-    return (
-        <View
-            style={styles.view}
-        >
-            <Text style={styles.title}>
-                PrimeCar
-            </Text>
-            <View style={styles.inputContainer}>
-                <Text style={styles.inputTitle}>Username:</Text>
-                <TextInput style={styles.inputBar}></TextInput>
-                <Text style={styles.inputTitle}>Password:</Text>
-                <TextInput style={styles.inputBar}></TextInput>
-            </View>
-            <View style={styles.btnContainer}>
-                <GradientNavButton
-                    buttonStyle={styles.loginBtn}
-                    onPress={() => router.navigate("/Discover")}
-                    textStyle={styles.loginBtnText}
-                    text="Login"
-                    colors={["#0093CB", "#1E7A9D"]}
-                >
-                </GradientNavButton>
-                <NavButton
-                    buttonStyle={styles.registerBtn}
-                    onPress={() => router.navigate("/Register")}
-                    textStyle={styles.registerBtnText}
-                    text="Don't have an account? Register here"
-                >
-                </NavButton>
-            </View>
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
 
-        </View>
-    );
+    const storedUsers = await AsyncStorage.getItem("users");
+    if (storedUsers) {
+      const users = JSON.parse(storedUsers);
+      const user = users.find(u => u.email === email && u.password === password);
+
+      if (user) {
+        await AsyncStorage.setItem("currentUser", JSON.stringify(user));
+
+        Alert.alert("Welcome", `Login successful, ${user.fullName}!`);
+        router.replace("/Discover");
+      } else {
+        Alert.alert("Error", "Invalid credentials");
+      }
+    } else {
+      Alert.alert("Error", "No accounts found, please register first.");
+    }
+  };
+
+  return (
+    <View style={styles.view}>
+      <Text style={styles.title}>PrimeCar</Text>
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputTitle}>Email:</Text>
+        <TextInput style={styles.inputBar} placeholder="Email" value={email} onChangeText={setEmail} autoCapitalize="none" />
+        <Text style={styles.inputTitle}>Password:</Text>
+        <TextInput style={styles.inputBar} placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} />
+      </View>
+      <View style={styles.btnContainer}>
+        <GradientNavButton
+          buttonStyle={styles.loginBtn}
+          onPress={handleLogin}
+          textStyle={styles.loginBtnText}
+          text="Login"
+          colors={["#0093CB", "#1E7A9D"]}
+        />
+        <NavButton
+          buttonStyle={styles.registerBtn}
+          onPress={() => router.navigate("/Register")}
+          textStyle={styles.registerBtnText}
+          text="Don't have an account? Register here"
+        />
+      </View>
+    </View>
+  );
 }
+
 
 
 const styles = StyleSheet.create({
