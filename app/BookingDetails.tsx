@@ -83,8 +83,8 @@ export default function BookingDetails({ navigation, route }: Props) {
           <View style={styles.bottomBar}>
             
               <DateRangeViewBar
-              startDate={route.params.booking.rentalStart}
-              endDate={route.params.booking.rentalEnd}
+              startDate={new Date(route.params.booking.rentalStart)}
+              endDate={new Date(route.params.booking.rentalEnd)}
             />
 
               <View style={styles.cancelRentalBar}>

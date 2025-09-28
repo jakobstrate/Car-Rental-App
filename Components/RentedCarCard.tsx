@@ -26,8 +26,8 @@ const testCar : Car = {
 
 const testBooking : Booking = {
   car: testCar,
-  rentalStart: new Date(),
-  rentalEnd: new Date(new Date().getTime() + 2 * 60 * 60 * 1000), 
+  rentalStart: new Date().toISOString(),
+  rentalEnd: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString(), 
   totalCost: 69.000,
 }
 
