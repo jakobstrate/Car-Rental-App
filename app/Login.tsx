@@ -1,78 +1,159 @@
+import React, { useState } from "react";
+import { StyleSheet, Text, TextInput, View, Alert } from "react-native";
+import GradientNavButton from "@/Components/GradientNavButton";
+import NavButton from "@/Components/NavButton";
 import { router } from "expo-router";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+
+    const storedUsers = await AsyncStorage.getItem("users");
+    if (storedUsers) {
+      const users = JSON.parse(storedUsers);
+      const user = users.find(u => u.email === email && u.password === password);
+
+      if (user) {
+        await AsyncStorage.setItem("currentUser", JSON.stringify(user));
+
+        Alert.alert("Welcome", `Login successful, ${user.fullName}!`);
+        router.replace("/Discover");
+      } else {
+        Alert.alert("Error", "Invalid credentials");
+      }
+    } else {
+      Alert.alert("Error", "No accounts found, please register first.");
+    }
+  };
+
   return (
-    <View
-      style={styles.view}
-    >
-      <Text style={styles.title}>
-        PrimeCar
-      </Text>
+    <View style={styles.view}>
+      <Text style={styles.title}>PrimeCar</Text>
       <View style={styles.inputContainer}>
-        <Text style={styles.inputTitle}>Username:</Text>
-        <TextInput style={styles.inputBar}>Username</TextInput>
+        <Text style={styles.inputTitle}>Email:</Text>
+        <TextInput style={styles.inputBar} placeholder="Email" value={email} onChangeText={setEmail} autoCapitalize="none" />
         <Text style={styles.inputTitle}>Password:</Text>
-        <TextInput style={styles.inputBar}>Password</TextInput>
+        <TextInput style={styles.inputBar} placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} />
       </View>
       <View style={styles.btnContainer}>
-        <TouchableOpacity style={styles.loginBtn} onPress={() => router.navigate("/Discover")}>
-            <Text style={styles.loginBtnText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.registerBtn} onPress={() => router.navigate("/Register")}>
-            <Text style={styles.registerBtnText}>Already registered? Register Here</Text>
-        </TouchableOpacity>
+        <GradientNavButton
+          buttonStyle={styles.loginBtn}
+          onPress={handleLogin}
+          textStyle={styles.loginBtnText}
+          text="Login"
+          colors={["#0093CB", "#1E7A9D"]}
+        />
+        <NavButton
+          buttonStyle={styles.registerBtn}
+          onPress={() => router.navigate("/Register")}
+          textStyle={styles.registerBtnText}
+          text="Don't have an account? Register here"
+        />
       </View>
-      
-        
     </View>
   );
 }
 
 
+
 const styles = StyleSheet.create({
-  view: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 64,
-    margin: 10,
-  },
-  btnContainer: {
-    gap: 5
-  },
-  loginBtn: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-  },
-  registerBtn: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    width: '100%',
-    height: 40,
-    justifyContent: 'center'
-  },
-  loginBtnText: {
-    fontSize: 24,
-  },
-  registerBtnText: {
-    fontSize: 12,
-  },
-  inputContainer: {
-    width: '80%',
-    height: '60%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  inputBar: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    width: '100%',
-  },
-  inputTitle: {
-    width: '100%',
-    
-  },
+    view: {
+        justifyContent: "center",
+        alignItems: "center",
+    },
+
+    title: {
+        fontSize: 60,
+        color: "#005ACD",
+
+        textShadowColor: "#000000",
+        textShadowOffset: {
+            width: 3,
+            height: 3,
+        },
+
+        textShadowRadius: 4,
+        margin: 10,
+    },
+
+    btnContainer: {
+        gap: 10,
+        width: "60%",
+    },
+
+    loginBtn: {
+        borderRadius: 15,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+
+        shadowOpacity: 0.25,
+        shadowRadius: 0,
+        elevation: 4,
+    },
+
+    loginBtnText: {
+        fontSize: 36,
+        color: "#F5FFFF",
+    },
+
+    registerBtn: {
+        padding: 10,
+        color: "#D9D9D9",
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+
+        shadowOpacity: 0.25,
+        shadowRadius: 0,
+        elevation: 4,
+    },
+
+    registerBtnText: {
+        fontSize: 12,
+        color: "#000000"
+    },
+
+    inputContainer: {
+        width: '80%',
+        height: '60%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    inputBar: {
+        alignItems: 'center',
+        borderRadius: 15,
+        backgroundColor: '#F1F1F1',
+        width: '100%',
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+
+        shadowOpacity: 0.25,
+        shadowRadius: 0,
+        elevation: 4,
+
+        marginBottom: 30,
+    },
+
+    inputTitle: {
+        width: '100%',
+        fontSize: 20,
+    },
 });

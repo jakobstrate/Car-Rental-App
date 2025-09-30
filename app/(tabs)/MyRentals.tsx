@@ -1,19 +1,25 @@
 import RentedCarCard from "@/Components/RentedCarCard";
+import { useBookings } from "@/context/BookingContext";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
-
 export default function MyRentals() {
-    return (
-        <View style={styles.container}>
-            <Text style={styles.title}>My Rentals</Text>
-            <ScrollView horizontal={false} style={styles.carScrollView}
-                    contentContainerStyle={styles.carColumn}>
-                <RentedCarCard name={'Coca Kapow'} due={'100$'} deadline={'11/07'} image={undefined} rentPeriod={'12/7->16/6'} />
+  const { bookings } = useBookings();
+  return (
+      <View style={styles.container}>
+        <Text style={styles.title}>My Rentals</Text>
+        <ScrollView horizontal={false} style={styles.carScrollView}
+          contentContainerStyle={styles.carColumn}>
+          {bookings.map((booking, index) => (
+            <RentedCarCard 
+              key={index}
+              booking={booking}
+            />
+          ))}
+          
                 
-        
-            </ScrollView>
-        </View>
-    );
+        </ScrollView>
+      </View>
+  );
 }
 
 const styles = StyleSheet.create({

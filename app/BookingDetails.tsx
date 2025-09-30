@@ -2,19 +2,14 @@ import BackIcon from "@/assets/images/icons/BackIcon.svg";
 import FuelTypeIcon from "@/assets/images/icons/FuelTypeIcon.svg";
 import MileageIcon from "@/assets/images/icons/MileageIcon.svg";
 import TransmissionTypeIcon from "@/assets/images/icons/TransmissionIcon.svg";
-import DateRangePicker from "@/Components/DateRangePicker";
-import { useBookings } from "@/context/BookingContext";
-import { Booking } from "@/types/Booking";
-import { Car } from "@/types/Car";
+import DateRangeViewBar from "@/Components/DateRangeViewBar";
+import { useBookings } from '@/context/BookingContext';
 import { RootStackParamList } from "@/types/navigation";
-import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useState } from "react";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SvgProps } from "react-native-svg";
 
-type MyRentalsNavProp = NativeStackNavigationProp<RootStackParamList, "MyRentals">;
-
-type Props = NativeStackScreenProps<RootStackParamList, "CarDetails">;
+type Props = NativeStackScreenProps<RootStackParamList, "BookingDetails">;
 
 type CarInfoCard = {
   Icon: React.FC<SvgProps>;
@@ -22,34 +17,15 @@ type CarInfoCard = {
   valueTxt: string;
 };
 
-const totalCost = (startDate: Date | undefined, endDate: Date | undefined, rentPerHour: number): number => {
-  if (!startDate || !endDate) return 0;
-  return (( (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60) ) * rentPerHour);
-}
 
-export default function CarDetails({ navigation, route }: Props) {
-  const { addBooking } = useBookings();
+export default function BookingDetails({ navigation, route }: Props) {
+  const { removeBooking } = useBookings();
+  const cancelBooking = () => {    
   
-
-  const confirmBooking = (car: Car, startDate: Date | undefined, endDate: Date | undefined) => {
-    
-    
-    if (!startDate || !endDate) {
-      alert("Please select rental dates");
-      return;
-    }
-
-    const newBooking: Booking = {
-      car: car,
-      rentalStart: startDate.toISOString(),
-      rentalEnd: endDate.toISOString(),
-      totalCost: totalCost(startDate, endDate, car.rentPerHour),
-    };
-
-    addBooking(newBooking);
-    navigation.navigate("MyRentalsStack", { screen: "MyRentals" });
+    removeBooking(route.params.booking);
+    navigation.navigate("MyRentals");
   }
-
+  
   const BasicCarInfoCard: React.FC<CarInfoCard> = ({Icon,typeTxt, valueTxt}) => (
     <View style={basicCarInfoCardStyle.container}>
       <Icon width={32} height={32}/>
@@ -66,44 +42,42 @@ export default function CarDetails({ navigation, route }: Props) {
     </View>
   );
   
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
 
     return (
         <View style={styles.container}>
           <View style={styles.topBar}>
             <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}><BackIcon width={42} height={42}/></TouchableOpacity>
-            <Text style={styles.title} adjustsFontSizeToFit= {true}>{route.params.car.brand +" "+ route.params.car.modelName}</Text>
+            <Text style={styles.title} adjustsFontSizeToFit= {true}>{route.params.booking.car.brand +" "+ route.params.booking.car.modelName}</Text>
           </View>
           <ScrollView style={styles.bodyScrollView} contentContainerStyle={{alignItems: 'center', gap: 10, paddingBottom: 100}}>
-            <Image source={route.params.car.image} style={styles.carImg}/>
+            <Image source={route.params.booking.car.image} style={styles.carImg}/>
             <View style={styles.rentInfo}>
               <Text style={styles.rentCostText}>Rent cost :</Text>
-              <Text style={styles.rentPrHourText}>{route.params.car.rentPerHour + " Dkk / Hour"}</Text>
+              <Text style={styles.rentPrHourText}>{route.params.booking.car.rentPerHour + " Dkk / Hour"}</Text>
             </View>
             <View style={styles.seperator}/>
             <View style={detailsViewStyle.detailsView}>
               <View style={detailsViewStyle.basicCarInfoCards}>
-                <BasicCarInfoCard Icon={FuelTypeIcon} typeTxt='FuelType' valueTxt={route.params.car.fuelType}/>
-                <BasicCarInfoCard Icon={TransmissionTypeIcon} typeTxt='Transmission' valueTxt={route.params.car.transmission}/>
-                <BasicCarInfoCard Icon={MileageIcon} typeTxt='Mileage' valueTxt={route.params.car.mileage}/>
+                <BasicCarInfoCard Icon={FuelTypeIcon} typeTxt='FuelType' valueTxt={route.params.booking.car.fuelType}/>
+                <BasicCarInfoCard Icon={TransmissionTypeIcon} typeTxt='Transmission' valueTxt={route.params.booking.car.transmission}/>
+                <BasicCarInfoCard Icon={MileageIcon} typeTxt='Mileage' valueTxt={route.params.booking.car.mileage}/>
               </View>
               <View>
                 <Text style={detailsViewStyle.sectionTitle}>Description</Text>
-                <Text style={detailsViewStyle.descriptionTxt}>{route.params.car.description}</Text>
+                <Text style={detailsViewStyle.descriptionTxt}>{route.params.booking.car.description}</Text>
               </View>
               <View>
                 <Text style={detailsViewStyle.sectionTitle}>Specifications</Text>
                 <View style={detailsViewStyle.specBox}>
-                  <SpecTextItem specText="Car Type" valueText={route.params.car.carType } />
-                  <SpecTextItem specText="Color" valueText={route.params.car.color } />
-                  <SpecTextItem specText="Model Year" valueText={route.params.car.modelYear.toString() } />
-                  <SpecTextItem specText="Number of Seats" valueText={route.params.car.numberOfSeats.toString() } />
+                  <SpecTextItem specText="Car Type" valueText={route.params.booking.car.carType } />
+                  <SpecTextItem specText="Color" valueText={route.params.booking.car.color } />
+                  <SpecTextItem specText="Model Year" valueText={route.params.booking.car.modelYear.toString() } />
+                  <SpecTextItem specText="Number of Seats" valueText={route.params.booking.car.numberOfSeats.toString() } />
                 </View>
               </View>
               <View style={styles.extrasSection}>
                 <Text style={detailsViewStyle.sectionTitle}>Extras</Text>
-                  {route.params.car.extras.map((extra, index) => (
+                  {route.params.booking.car.extras.map((extra, index) => (
                   <Text key={index} style={detailsViewStyle.descriptionTxt} >
                     - {extra}
                   </Text>
@@ -115,26 +89,20 @@ export default function CarDetails({ navigation, route }: Props) {
           </ScrollView>
           <View style={styles.bottomBar}>
             
-              <DateRangePicker
-              startDate={startDate}
-              endDate={endDate}
-              onChange={(start, end) => {
-                setStartDate(start);
-                setEndDate(end);
-              }}
+              <DateRangeViewBar
+              startDate={new Date(route.params.booking.rentalStart)}
+              endDate={new Date(route.params.booking.rentalEnd)}
             />
 
-              <View style={styles.confirmRentalBar}>
+              <View style={styles.cancelRentalBar}>
                 <View>
                   <Text style={styles.totalCostText}>Total Cost: </Text>
-                  <Text style={styles.totalCostValueText}>{totalCost(startDate,endDate,route.params.car.rentPerHour).toFixed(2)} Dkk</Text>
+                  <Text style={styles.totalCostValueText}>{route.params.booking.totalCost.toFixed(2) + "DKK"}</Text>
                 </View>
                 
-                <TouchableOpacity style={styles.confirmBtn} onPress={() => confirmBooking(route.params.car, startDate, endDate)}>
-                        <Text style={styles.confirmTxt}>Confirm</Text>
-                </TouchableOpacity>
+                <TouchableOpacity style={styles.cancelBtn} onPress={() => cancelBooking()}><Text style={styles.cancelTxt}>Cancel</Text></TouchableOpacity>
               </View>
-              <Text style={styles.confirmRentalDiscTxt}>* upon returning the vehicle, the cost of the rent is reduces based on time remaining till deadline,
+              <Text style={styles.cancelRentalDiscTxt}>* upon returning the vehicle, the cost of the rent is reduces based on time remaining till deadline,
 and an additional cost is added based on fuel consumption.
 </Text>
             </View>
@@ -208,20 +176,20 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#6dd7fd',
   },
-  confirmBtn: {
+  cancelBtn: {
     width: 100,
     height: 60,
     borderRadius: 8,
-    backgroundColor: '#04DE4Dff',
+    backgroundColor: '#DE3004ff',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  confirmTxt: {
+  cancelTxt: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#ffffffff',
   },
-  confirmRentalDiscTxt: {
+  cancelRentalDiscTxt: {
     fontSize: 8,
     color: '#7e7e7eff',
     width: '95%',
@@ -240,7 +208,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 10,
   },
-  confirmRentalBar: {
+  cancelRentalBar: {
     width: '100%',
     height: 60,
     flexDirection: 'row',

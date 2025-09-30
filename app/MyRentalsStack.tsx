@@ -1,15 +1,15 @@
-import DiscoverScreen from "@/app/(tabs)/Discover";
-import CarDetailsScreen from "@/app/CarDetails";
+import MyRentalsScreen from "@/app/(tabs)/MyRentals";
+import BookingDetailScreen from "@/app/BookingDetails";
 import { RootStackParamList } from "@/types/navigation";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export default function DiscoverStack() {
+export default function MyRentalsStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Discover" component={DiscoverScreen} />
-      <Stack.Screen name="CarDetails" component={CarDetailsScreen}  />
+      <Stack.Screen name="MyRentals" component={MyRentalsScreen} />
+      <Stack.Screen name="BookingDetails" component={BookingDetailScreen}  />
     </Stack.Navigator>
   );
 }
