@@ -1,4 +1,4 @@
-import MyRentalsScreen from "@/app/(tabs)/MyRentals";
+import MyRentalsScreen from "@/app/MyRentals";
 import BookingDetailScreen from "@/app/BookingDetails";
 import { RootStackParamList } from "@/types/navigation";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";

@@ -3,9 +3,10 @@ import { Car } from "./Car";
 
 
 export type RootStackParamList = {
-  Discover: undefined;
-  CarDetails: { car: Car };
-  Home: undefined;
-  MyRentals: undefined;
-  BookingDetails: { booking: Booking };
+    Discover: undefined;
+    CarDetails: { car: Car };
+    Home: undefined;
+    MyRentals: undefined;
+    BookingDetails: { booking: Booking };
+    Login: undefined;
 };
