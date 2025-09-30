@@ -89,19 +89,19 @@ app.post("/cars", (req, res) => {
   );
 });
 
-// app.get("/users/:id", (req, res) => {
-//   db.get("SELECT * FROM users WHERE id = ?", [req.params.id], (err, row) => {
-//     if (err) {
-//       res.status(500).json({ error: err.message });
-//       return;
-//     }
-//     if (!row) {
-//       res.status(404).json({ error: "User not found" });
-//       return;
-//     }
-//     res.json(row);
-//   });
-// });
+app.get("/cars/:id", (req, res) => {
+  db.get("SELECT * FROM cars WHERE id = ?", [req.params.id], (err, row) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    if (!row) {
+      res.status(404).json({ error: "Car not found" });
+      return;
+    }
+    res.json(row);
+  });
+});
 
 
 app.listen(PORT, () => {
