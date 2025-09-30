@@ -1,6 +1,7 @@
 import { ImageSourcePropType } from "react-native";
 
 export type Car = {
+  id: number;
   brand: string;
   modelName: string;
   modelYear: number;

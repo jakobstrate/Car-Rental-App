@@ -1,10 +1,16 @@
+const cors = require("cors")
 const express = require("express");
+
 const db = require("./db");
 
 const app = express();
 const PORT = 3000;
-
-app.use(express.json());
+cors({
+  origin: "http://localhost:8081/",
+  credentials: true
+})
+app.use(
+  express.json());
 
 app.get("/cars", (req, res) => {
   db.all("SELECT * FROM cars", [], (err, rows) => {

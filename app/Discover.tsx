@@ -1,8 +1,11 @@
 import CarCard from "@/Components/CarCard";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import axios from "axios"
+import { Car } from "@/types/Car"
+import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
 
 export default function Discover() {
-
+    const [cars, setCars] = useState<Car[]>([]);
     //smaller parts of the screen
     type FilterScrollviewBtnProps = {
         typeName: string;
@@ -39,6 +42,10 @@ export default function Discover() {
             </ScrollView>
         </View>
     );
+    useEffect(() => {
+      axios.get('http://localhost:3000/cars').then( (res) => {setCars(res.data.cars)})
+    }, [])
+    
 
     return (
         <View
@@ -47,12 +54,10 @@ export default function Discover() {
             <FilterBar/>
             <ScrollView horizontal={false} style={styles.carScrollView}
             contentContainerStyle={styles.carColumn}>
-                <CarCard name={'Fiat punto'} cost={100} image={undefined} />
-                <CarCard name={'Fiat punto'} cost={100} image={undefined} />
-                <CarCard name={'Fiat punto'} cost={100} image={undefined} />
-                <CarCard name={'Fiat punto'} cost={100} image={undefined} />
-                <CarCard name={'Fiat punto'} cost={100} image={undefined} />
-
+                {cars?.map( car => [
+                  <CarCard key={car.id} name={car.brand +  " " + car.modelName} cost={car.rentPerHour} image={car.image}></CarCard>
+                ])}
+                <Text>Cars: {JSON.stringify(cars)}</Text>
             </ScrollView>
         </View>
     );
