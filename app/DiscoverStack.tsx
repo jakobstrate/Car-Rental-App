@@ -1,4 +1,4 @@
-import DiscoverScreen from "@/app/(tabs)/Discover";
+import DiscoverScreen from "@/app/Discover";
 import CarDetailsScreen from "@/app/CarDetails";
 import { RootStackParamList } from "@/types/navigation";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
