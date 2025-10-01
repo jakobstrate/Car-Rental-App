@@ -5,10 +5,10 @@ const db = require("./db");
 
 const app = express();
 const PORT = 3000;
-cors({
-  origin: "http://localhost:8081/",
-  credentials: true
-})
+
+
+app.use(cors({ origin: "http://localhost:8081" }));
+
 app.use(
   express.json());
 

@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     carColumn: {
         justifyContent: "center",
         alignItems: "center",
+        gap: 10,
     },
     title: {
         fontSize: 48,

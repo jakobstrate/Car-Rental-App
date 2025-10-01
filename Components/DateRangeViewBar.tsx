@@ -1,16 +1,16 @@
-import CalendarIcon from "@/assets/images/icons/CalendarIcon.svg";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 type Props = {
   startDate: Date | undefined;
   endDate: Date | undefined;
+  style?: StyleProp<ViewStyle>;
 };
 
 
-export default function DateRangeViewBar({ startDate, endDate} : Props)  {
+export default function DateRangeViewBar({ startDate, endDate, style} : Props)  {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Text style={styles.label}>
         Date
       </Text>
@@ -28,7 +28,6 @@ export default function DateRangeViewBar({ startDate, endDate} : Props)  {
             ? `${endDate.toLocaleDateString("en-GB")}`
             : "---"}
         </Text>
-        <CalendarIcon width={24} height={24} />
       </View>
       <Text style={styles.trailingTxt}>
         DD/MM/YYYY
