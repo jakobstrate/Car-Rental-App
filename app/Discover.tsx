@@ -43,7 +43,7 @@ export default function Discover() {
         </View>
     );
     useEffect(() => {
-      axios.get('http://localhost:3000/cars').then( (res) => {setCars(res.data.cars)})
+      axios.get('http://83.89.249.249:3000/cars').then( (res) => {setCars(res.data.cars)})
     }, [])
     
 
