@@ -40,7 +40,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
                 setUser(foundUser);
                 setLoggedIn(true);
 
-                Alert.alert("Welcome", `Login successful, ${foundUser.fullName}!`);
+                Alert.alert("Welcome",`Login successful, Welcome ${foundUser.fullName}`);
 
                 if (navigation) {
                     navigation.pop(2);

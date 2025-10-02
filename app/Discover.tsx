@@ -24,21 +24,13 @@ export default function Discover() {
             <Text>Filter Car Types</Text>
             <ScrollView horizontal={true} style={styles.filterBarScrollview} 
             contentContainerStyle={styles.filterBarRow} showsHorizontalScrollIndicator={false}>
-                
-                <FilterScrollviewBtn typeName={"SUV" } />
-                <FilterScrollviewBtn typeName={"SC"} />
-                <FilterScrollviewBtn typeName={"Truck"} />
+                <FilterScrollviewBtn typeName={"Sedan" } />
                 <FilterScrollviewBtn typeName={"SUV"} />
-                <FilterScrollviewBtn typeName={"SC"} />
-                <FilterScrollviewBtn typeName={"Truck"} />
-                <FilterScrollviewBtn typeName={"SUV"} />
-                <FilterScrollviewBtn typeName={"SC"} />
-                <FilterScrollviewBtn typeName={"Truck"} />
-                <FilterScrollviewBtn typeName={"SUV"} />
-                <FilterScrollviewBtn typeName={"SC"} />
-                <FilterScrollviewBtn typeName={"Truck"} />
-                
-                
+                <FilterScrollviewBtn typeName={"Sportscar"} />
+                <FilterScrollviewBtn typeName={"Hatchback"} />
+                <FilterScrollviewBtn typeName={"Wagon"} />
+                <FilterScrollviewBtn typeName={"Electric"} />
+                <FilterScrollviewBtn typeName={"Hybrid"} />
             </ScrollView>
         </View>
     );
@@ -88,7 +80,7 @@ const styles = StyleSheet.create({
     
   },
   filterBtnCell: {
-    width: 60,
+    width: 80,
     height: 40,
     marginLeft: 5,
     backgroundColor: "#ddd",
@@ -100,7 +92,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#DDDDDD',
     height: '100%',
-    width: 50,
+    width: 80,
   },
   carScrollView: {
     width: '100%',
