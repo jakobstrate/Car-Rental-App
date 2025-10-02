@@ -1,8 +1,9 @@
 import CarCard from "@/Components/CarCard";
-import axios from "axios"
-import { Car } from "@/types/Car"
-import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Car } from "@/types/Car";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function Discover() {
     const [cars, setCars] = useState<Car[]>([]);
@@ -34,7 +35,21 @@ export default function Discover() {
         </View>
     );
     useEffect(() => {
-      axios.get('http://83.89.249.249:3000/cars').then( (res) => {setCars(res.data.cars)})
+      const loadCars = async () => {
+        try {
+          const cached = await AsyncStorage.getItem("cars");
+          if (cached) {
+            setCars(JSON.parse(cached));
+          } else {
+            const res = await axios.get("http://83.89.249.249:3000/cars");
+            setCars(res.data.cars);
+            await AsyncStorage.setItem("cars", JSON.stringify(res.data.cars));
+          }
+        } catch (error) {
+          console.error("Failed to load cars from storage",error);
+        }
+      };
+      loadCars();
     }, [])
     
 
