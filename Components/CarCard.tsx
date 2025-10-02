@@ -26,19 +26,17 @@ const testCar : Car = {
 
 type DiscoverNavProp = NativeStackNavigationProp<RootStackParamList, "Discover">;
 
-export default function CarCard({ name, cost, image }) {
+export default function CarCard({ name, cost, image, car }) {
   const navigation = useNavigation<DiscoverNavProp>();
 
   return (
     <TouchableOpacity style={styles.container}  onPress={() => navigation.navigate("CarDetails", { car: testCar }) }>
       <View style={styles.detailsBox}>
-        <Text style={styles.carTitle}>{name}</Text>
-        <Text>Cost: {cost}</Text>
-        <Text>Cost: {cost}</Text>
-        <Text>Cost: {cost}</Text>
+        <Text style={styles.carTitle}>{car.brand + " " + car.modelName}</Text>
+        <Text>Cost: {car.rentPerHour}</Text>
       </View>
       
-      <Image source={{uri: `${API}/${image}`}} style={styles.carImg} />
+      <Image source={{uri: `${API}/${car.image}`}} style={styles.carImg} />
       
     </TouchableOpacity>
   );

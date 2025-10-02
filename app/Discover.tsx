@@ -63,7 +63,7 @@ export default function Discover() {
             <ScrollView horizontal={false} style={styles.carScrollView}
             contentContainerStyle={styles.carColumn}>
                 {cars?.map( car => [
-                  <CarCard key={car.id} name={car.brand +  " " + car.modelName} cost={car.rentPerHour} image={car.image}></CarCard>
+                  <CarCard key={car.id} name={car.brand +  " " + car.modelName} cost={car.rentPerHour} image={car.image} car={car}></CarCard>
                 ])}
             </ScrollView>
         </View>
