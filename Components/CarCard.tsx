@@ -5,6 +5,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+const API = "http://83.89.249.249:3000"
+
 const testCar : Car = {
   brand: "Volkswagen",
   modelName: "Polo",
@@ -36,7 +38,7 @@ export default function CarCard({ name, cost, image }) {
         <Text>Cost: {cost}</Text>
       </View>
       
-      <Image source={image} style={styles.carImg} />
+      <Image source={{uri: `${API}/${image}`}} style={styles.carImg} />
       
     </TouchableOpacity>
   );

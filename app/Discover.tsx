@@ -5,6 +5,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+const API = "http://83.89.249.249:3000"
+
 export default function Discover() {
     const [cars, setCars] = useState<Car[]>([]);
     //smaller parts of the screen
@@ -41,7 +43,7 @@ export default function Discover() {
           if (cached) {
             setCars(JSON.parse(cached));
           } else {
-            const res = await axios.get("http://83.89.249.249:3000/cars");
+            const res = await axios.get(`${API}/cars`);
             setCars(res.data.cars);
             await AsyncStorage.setItem("cars", JSON.stringify(res.data.cars));
           }
