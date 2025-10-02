@@ -1,8 +1,9 @@
 import CarCard from "@/Components/CarCard";
-import axios from "axios"
-import { Car } from "@/types/Car"
-import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Car } from "@/types/Car";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function Discover() {
     const [cars, setCars] = useState<Car[]>([]);
@@ -24,26 +25,32 @@ export default function Discover() {
             <Text>Filter Car Types</Text>
             <ScrollView horizontal={true} style={styles.filterBarScrollview} 
             contentContainerStyle={styles.filterBarRow} showsHorizontalScrollIndicator={false}>
-                
-                <FilterScrollviewBtn typeName={"SUV" } />
-                <FilterScrollviewBtn typeName={"SC"} />
-                <FilterScrollviewBtn typeName={"Truck"} />
+                <FilterScrollviewBtn typeName={"Sedan" } />
                 <FilterScrollviewBtn typeName={"SUV"} />
-                <FilterScrollviewBtn typeName={"SC"} />
-                <FilterScrollviewBtn typeName={"Truck"} />
-                <FilterScrollviewBtn typeName={"SUV"} />
-                <FilterScrollviewBtn typeName={"SC"} />
-                <FilterScrollviewBtn typeName={"Truck"} />
-                <FilterScrollviewBtn typeName={"SUV"} />
-                <FilterScrollviewBtn typeName={"SC"} />
-                <FilterScrollviewBtn typeName={"Truck"} />
-                
-                
+                <FilterScrollviewBtn typeName={"Sportscar"} />
+                <FilterScrollviewBtn typeName={"Hatchback"} />
+                <FilterScrollviewBtn typeName={"Wagon"} />
+                <FilterScrollviewBtn typeName={"Electric"} />
+                <FilterScrollviewBtn typeName={"Hybrid"} />
             </ScrollView>
         </View>
     );
     useEffect(() => {
-      axios.get('http://83.89.249.249:3000/cars').then( (res) => {setCars(res.data.cars)})
+      const loadCars = async () => {
+        try {
+          const cached = await AsyncStorage.getItem("cars");
+          if (cached) {
+            setCars(JSON.parse(cached));
+          } else {
+            const res = await axios.get("http://83.89.249.249:3000/cars");
+            setCars(res.data.cars);
+            await AsyncStorage.setItem("cars", JSON.stringify(res.data.cars));
+          }
+        } catch (error) {
+          console.error("Failed to load cars from storage",error);
+        }
+      };
+      loadCars();
     }, [])
     
 
@@ -88,7 +95,7 @@ const styles = StyleSheet.create({
     
   },
   filterBtnCell: {
-    width: 60,
+    width: 80,
     height: 40,
     marginLeft: 5,
     backgroundColor: "#ddd",
@@ -100,7 +107,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#DDDDDD',
     height: '100%',
-    width: 50,
+    width: 80,
   },
   carScrollView: {
     width: '100%',
