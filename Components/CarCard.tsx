@@ -33,7 +33,8 @@ export default function CarCard({ name, cost, image, car }) {
     <TouchableOpacity style={styles.container}  onPress={() => navigation.navigate("CarDetails", { car: testCar }) }>
       <View style={styles.detailsBox}>
         <Text style={styles.carTitle}>{car.brand + " " + car.modelName}</Text>
-        <Text>Cost: {car.rentPerHour}</Text>
+        <Text>{car.description}</Text>
+        <Text style={styles.carCost}>Cost: {car.rentPerHour + " dollars per hour"}</Text>
       </View>
       
       <Image source={{uri: `${API}/${car.image}`}} style={styles.carImg} />
@@ -67,5 +68,11 @@ const styles = StyleSheet.create({
     height: '100%', 
     backgroundColor: '#ccc', 
     marginBottom: 4 
+  },
+  carCost: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginTop: 'auto',
+    marginBottom: 10,
   },
 });
