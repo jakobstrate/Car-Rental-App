@@ -22,7 +22,6 @@ export default function Discover() {
 
     const FilterBar = () => (
         <View style={styles.filterContainer}>
-            <Text>Filter Car Types</Text>
             <ScrollView horizontal={true} style={styles.filterBarScrollview} 
             contentContainerStyle={styles.filterBarRow} showsHorizontalScrollIndicator={false}>
                 <FilterScrollviewBtn typeName={"Sedan" } />
@@ -30,8 +29,8 @@ export default function Discover() {
                 <FilterScrollviewBtn typeName={"Sportscar"} />
                 <FilterScrollviewBtn typeName={"Hatchback"} />
                 <FilterScrollviewBtn typeName={"Wagon"} />
-                <FilterScrollviewBtn typeName={"Electric"} />
-                <FilterScrollviewBtn typeName={"Hybrid"} />
+                
+
             </ScrollView>
         </View>
     );
@@ -64,7 +63,6 @@ export default function Discover() {
                 {cars?.map( car => [
                   <CarCard key={car.id} name={car.brand +  " " + car.modelName} cost={car.rentPerHour} image={car.image}></CarCard>
                 ])}
-                <Text>Cars: {JSON.stringify(cars)}</Text>
             </ScrollView>
         </View>
     );
@@ -72,49 +70,42 @@ export default function Discover() {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
-    justifyContent: "center",
-    alignItems: "center",
-    top: 30,
+    flex: 1,
+    paddingTop: 40,
   },
+
   filterContainer: {
-    width: '100%',
-    height: 60,
-    backgroundColor: '#cececeff',
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  filterBarScrollview: {
-    width: '100%',
-    height: 60,
-    gap: 20,
+    width: "100%",
+    paddingVertical: 10,
+    shadowColor: "#000",
   },
   filterBarRow: {
-    justifyContent: "center", 
+    flexDirection: "row",
     alignItems: "center",
-    
+    gap: 10,
   },
-  filterBtnCell: {
-    width: 80,
-    height: 40,
-    marginLeft: 5,
-    backgroundColor: "#ddd",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   filterBtn: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#DDDDDD',
-    height: '100%',
-    width: 80,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    paddingHorizontal: 18,
+    paddingVertical: 8,
+    borderRadius: 20,
   },
+  filterBtnTextActive: {
+    color: "#fff",
+  },
+
+  // Car Card List
   carScrollView: {
-    width: '100%',
-    height: '90%',
+    flex: 1,
+    marginTop: 10,
   },
   carColumn: {
-    justifyContent: "center", 
+    paddingBottom: 120,
+    gap: 15,
     alignItems: "center",
-  }
+  },
 });
+

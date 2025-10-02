@@ -22,7 +22,7 @@ const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: '#ffffffff'
+    background: '#269accff'
   },
 };
 
