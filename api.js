@@ -108,6 +108,16 @@ app.get("/cars/:id", (req, res) => {
     res.json(row);
   });
 });
+app.put("/cars/image, (req, res) => {
+  const {id, image} = req.body
+  db.run(`UPDATE cars SET image = ? WHERE id = ?`, [image, id], (err) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json("Table updated successfully");
+  });
+});
 
 
 app.listen(PORT, () => {
