@@ -108,7 +108,7 @@ app.get("/cars/:id", (req, res) => {
     res.json(row);
   });
 });
-app.put("/cars/image, (req, res) => {
+app.put("/cars/image", (req, res) => {
   const {id, image} = req.body
   db.run(`UPDATE cars SET image = ? WHERE id = ?`, [image, id], (err) => {
     if (err) {
