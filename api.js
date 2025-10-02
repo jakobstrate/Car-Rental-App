@@ -9,8 +9,11 @@ const PORT = 3000;
 
 app.use(cors({ origin: "http://localhost:8081" }));
 
+
 app.use(
   express.json());
+
+app.use("/assets",express.static('assets'));
 
 app.get("/cars", (req, res) => {
   db.all("SELECT * FROM cars", [], (err, rows) => {
