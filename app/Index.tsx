@@ -13,7 +13,7 @@ export default function Index() {
     return (
         <View style={styles.view}>
             <Text style={styles.title}>PrimeCar</Text>
-            {user && <Text style={styles.welcomeText}>Welcome, {user.fullName}</Text>}
+            {user && <Text style={styles.welcomeText}>Welcome {user.fullName}</Text>}
 
             <TouchableOpacity
                 style={styles.button}
@@ -39,27 +39,43 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-    view: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    title: {
-        fontSize: 64,
-        margin: 10,
-    },
-    welcomeText: {
-        fontSize: 24,
-        marginBottom: 20,
-    },
-    button: {
-        alignItems: "center",
-        backgroundColor: "#DDDDDD",
-        padding: 10,
-        marginVertical: 5,
-        width: 200,
-    },
-    btnText: {
-        fontSize: 24,
-    },
+  view: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+
+  title: {
+    fontSize: 58,
+    fontWeight: "800",
+    color: "#fff",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+
+  welcomeText: {
+    fontSize: 20,
+    fontWeight: "500",
+    color: "#fff",
+    marginBottom: 50,
+    textAlign: "center",
+  },
+
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    paddingVertical: 14,
+    marginVertical: 10,
+    width: "80%",
+  },
+  btnText: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#269accff",
+  },
 });
+
+
