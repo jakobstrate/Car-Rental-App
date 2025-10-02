@@ -65,7 +65,7 @@ function MainTabs() {
             <Tab.Screen name="Home" component={Index} />
             <Tab.Screen name="MyRentalsStack" component={MyRentalsStack}
                 options={({ route }) => ({
-                    tabBarLabel: 'Discover',
+                    tabBarLabel: 'MyRentals',
                     tabBarStyle: getTabBarStyle(route, ['BookingDetails']),
                 })}/>
         </Tab.Navigator>
