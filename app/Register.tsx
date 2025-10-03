@@ -49,12 +49,11 @@ export default function Register() {
                 <TextInput style={styles.inputBar} placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} />
             </View>
             <View style={styles.btnContainer}>
-                <GradientNavButton
+                <NavButton
                     buttonStyle={styles.registerBtn}
                     onPress={handleRegister}
                     textStyle={styles.registerBtnText}
                     text="Register"
-                    colors={["#0093CB", "#1E7A9D"]}
                 />
                 <NavButton
                     buttonStyle={styles.loginBtn}
@@ -76,21 +75,15 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        fontSize: 60,
-        color: "#005ACD",
-
-        textShadowColor: "#000000",
-        textShadowOffset: {
-            width: 3,
-            height: 3,
-        },
-
-        textShadowRadius: 4,
-        margin: 10,
+        fontSize: 58,
+        fontWeight: "800",
+        color: "#fff",
+        marginTop: 30,
+        textAlign: "center",
     },
 
     btnContainer: {
-        gap: 10,
+        gap: 20,
         width: "60%",
     },
 
@@ -98,39 +91,22 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         paddingHorizontal: 10,
         paddingVertical: 5,
-        shadowColor: "#000000",
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-
-        shadowOpacity: 0.25,
-        shadowRadius: 0,
-        elevation: 4,
+        backgroundColor: "#fff"
     },
 
     registerBtnText: {
         fontSize: 36,
-        color: "#F5FFFF",
+        color: "#269accff",
     },
 
     loginBtn: {
         padding: 10,
-        backgroundColor: "#D9D9D9",
-        shadowColor: "#000000",
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-
-        shadowOpacity: 0.25,
-        shadowRadius: 0,
-        elevation: 4,
+        backgroundColor: "#fff",
     },
 
     loginBtnText: {
         fontSize: 12,
-        color: "#000000"
+        color: "#269accff"
     },
 
     inputContainer: {
@@ -143,23 +119,14 @@ const styles = StyleSheet.create({
     inputBar: {
         alignItems: 'center',
         borderRadius: 15,
-        backgroundColor: '#F1F1F1',
+        backgroundColor: '#fff',
         width: '100%',
-        shadowColor: "#000000",
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-
-        shadowOpacity: 0.25,
-        shadowRadius: 0,
-        elevation: 4,
-
         marginBottom: 30,
     },
 
     inputTitle: {
         width: '100%',
         fontSize: 20,
+        color: "#fff"
     },
 });
