@@ -8,12 +8,13 @@ import { useUser } from "@/context/UserContext";
 import { Booking } from "@/types/Booking";
 import { Car } from "@/types/Car";
 import { RootStackParamList } from "@/types/navigation";
-import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SvgProps } from "react-native-svg";
+import { API } from "@/constants"
 
-type MyRentalsNavProp = NativeStackNavigationProp<RootStackParamList, "MyRentals">;
+
 
 type Props = NativeStackScreenProps<RootStackParamList, "CarDetails">;
 
@@ -27,6 +28,7 @@ const totalCost = (startDate: Date | undefined, endDate: Date | undefined, rentP
     if (!startDate || !endDate) return 0;
     return (((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60)) * rentPerHour);
 }
+
 
 export default function CarDetails({ navigation, route }: Props) {
     const { addBooking } = useBookings();
@@ -82,7 +84,7 @@ export default function CarDetails({ navigation, route }: Props) {
                 <Text style={styles.title} adjustsFontSizeToFit={true}>{route.params.car.brand + " " + route.params.car.modelName}</Text>
             </View>
             <ScrollView style={styles.bodyScrollView} contentContainerStyle={{ alignItems: 'center', gap: 10, paddingBottom: 100 }}>
-                <Image source={route.params.car.image} style={styles.carImg} />
+                <Image source={{ uri: `${API}/${route.params.car.image}` }} style={styles.carImg} />
                 <View style={styles.rentInfo}>
                     <Text style={styles.rentCostText}>Rent cost :</Text>
                     <Text style={styles.rentPrHourText}>{route.params.car.rentPerHour + " Dkk / Hour"}</Text>

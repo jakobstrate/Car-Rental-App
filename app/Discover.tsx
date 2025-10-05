@@ -5,8 +5,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
+import { API } from "@/constants"
 
-const API = "http://83.89.249.249:3000"
 
 export default function Discover() {
     const [cars, setCars] = useState<Car[]>([]);
@@ -59,19 +59,32 @@ export default function Discover() {
         const loadCars = async () => {
             try {
                 const cached = await AsyncStorage.getItem("cars");
+                let loadedCars;
                 if (cached) {
-                    setCars(JSON.parse(cached));
+                    loadedCars = JSON.parse(cached);
                 } else {
                     const res = await axios.get(`${API}/cars`);
-                    setCars(res.data.cars);
-                    await AsyncStorage.setItem("cars", JSON.stringify(res.data.cars));
+                    loadedCars = res.data.cars;
+                    await AsyncStorage.setItem("cars", JSON.stringify(loadedCars));
                 }
+
+                // Work around so that extras is always loaded as an array.
+                // CarDetails fails if extras are not in an array.
+                loadedCars = loadedCars.map((c) => ({
+                    ...c,
+                    extras: Array.isArray(c.extras)
+                        ? c.extras
+                        : JSON.parse(c.extras.replace(/'/g, '"')), // convert string to array
+                }));
+
+                setCars(loadedCars);
             } catch (error) {
                 console.error("Failed to load cars from storage", error);
             }
         };
+
         loadCars();
-    }, [])
+    }, []);
 
     const filteredCars = cars.filter((car) => {
         return (
