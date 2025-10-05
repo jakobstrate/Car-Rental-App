@@ -1,113 +1,147 @@
 import CarCard from "@/Components/CarCard";
+import ModalFilter from "@/Components/ModalFilter";
 import { Car } from "@/types/Car";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 const API = "http://83.89.249.249:3000"
 
 export default function Discover() {
     const [cars, setCars] = useState<Car[]>([]);
-    //smaller parts of the screen
-    type FilterScrollviewBtnProps = {
-        typeName: string;
+
+    const [filters, setFilters] = useState({
+        carType: null,
+        transmission: null,
+        fuelType: null,
+        color: null,
+        numberOfSeats: null,
+    });
+
+    const handleFilterChange = (key: string, value: string | null) => {
+        setFilters((prev) => ({ ...prev, [key]: value }));
     };
 
-    const FilterScrollviewBtn: React.FC<FilterScrollviewBtnProps> = ({typeName}) => (
-        <View style={styles.filterBtnCell}>
-            <TouchableOpacity style={styles.filterBtn}>
-                <Text>{typeName}</Text>
-            </TouchableOpacity>
-        </View>
-    );
 
     const FilterBar = () => (
         <View style={styles.filterContainer}>
-            <ScrollView horizontal={true} style={styles.filterBarScrollview} 
-            contentContainerStyle={styles.filterBarRow} showsHorizontalScrollIndicator={false}>
-                <FilterScrollviewBtn typeName={"Sedan" } />
-                <FilterScrollviewBtn typeName={"SUV"} />
-                <FilterScrollviewBtn typeName={"Sportscar"} />
-                <FilterScrollviewBtn typeName={"Hatchback"} />
-                <FilterScrollviewBtn typeName={"Wagon"} />
-                
+            <ScrollView horizontal={true} contentContainerStyle={styles.filterBarRow} showsHorizontalScrollIndicator={false}>
+                <ModalFilter
+                    label={"Car Type"}
+                    options={["Sedan", "SUV", "SportsCar", "Hatchback", "Wagon"]}
+                    onSelect={(value) => handleFilterChange("carType", value)} />
 
+                <ModalFilter
+                    label={"Transmission"}
+                    options={["Manual", "Automatic"]}
+                    onSelect={(value) => handleFilterChange("transmission", value)} />
+
+                <ModalFilter
+                    label={"Fuel"}
+                    options={["Petrol", "Diesel", "Electric", "Hybrid"]}
+                    onSelect={(value) => handleFilterChange("fuelType", value)} />
+
+                <ModalFilter
+                    label={"Color"}
+                    options={["White", "Black", "Red", "Silver", "Blue", "Yellow", "Gray", "Orange", "Lime", "Brown", "Green"]}
+                    onSelect={(value) => handleFilterChange("color", value)} />
+
+                <ModalFilter
+                    label={"Seats"}
+                    options={["2", "4", "5", "7"]}
+                    onSelect={(value) => handleFilterChange("numberOfSeats", value)} />
             </ScrollView>
         </View>
     );
+
     useEffect(() => {
-      const loadCars = async () => {
-        try {
-          const cached = await AsyncStorage.getItem("cars");
-          if (cached) {
-            setCars(JSON.parse(cached));
-          } else {
-            const res = await axios.get(`${API}/cars`);
-            setCars(res.data.cars);
-            await AsyncStorage.setItem("cars", JSON.stringify(res.data.cars));
-          }
-        } catch (error) {
-          console.error("Failed to load cars from storage",error);
-        }
-      };
-      loadCars();
+        const loadCars = async () => {
+            try {
+                const cached = await AsyncStorage.getItem("cars");
+                if (cached) {
+                    setCars(JSON.parse(cached));
+                } else {
+                    const res = await axios.get(`${API}/cars`);
+                    setCars(res.data.cars);
+                    await AsyncStorage.setItem("cars", JSON.stringify(res.data.cars));
+                }
+            } catch (error) {
+                console.error("Failed to load cars from storage", error);
+            }
+        };
+        loadCars();
     }, [])
-    
+
+    const filteredCars = cars.filter((car) => {
+        return (
+            (!filters.carType || car.carType === filters.carType) &&
+            (!filters.transmission || car.transmission === filters.transmission) &&
+            (!filters.fuelType || car.fuelType === filters.fuelType) &&
+            (!filters.color || car.color === filters.color) &&
+            (!filters.numberOfSeats || car.numberOfSeats?.toString() === filters.numberOfSeats)
+        );
+    });
+
 
     return (
         <View
             style={styles.container}
         >
-            <FilterBar/>
+            <FilterBar />
             <ScrollView horizontal={false} style={styles.carScrollView}
-            contentContainerStyle={styles.carColumn}>
-                {cars?.map( car => [
-                  <CarCard key={car.id} name={car.brand +  " " + car.modelName} cost={car.rentPerHour} image={car.image} car={car}></CarCard>
-                ])}
+                contentContainerStyle={styles.carColumn}>
+                {filteredCars.map((car) => (
+                    <CarCard
+                        key={car.id}
+                        name={car.brand + "" + car.modelName}
+                        cost={car.rentPerHour}
+                        image={car.image}
+                        car={car} />
+                ))}
             </ScrollView>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 40,
-  },
+    container: {
+        flex: 1,
+        paddingTop: 40,
+    },
 
-  filterContainer: {
-    width: "100%",
-    paddingVertical: 10,
-    shadowColor: "#000",
-  },
-  filterBarRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-  },
+    filterContainer: {
+        width: "100%",
+        paddingVertical: 10,
+        shadowColor: "#000",
+    },
+    filterBarRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+    },
 
-  filterBtn: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "white",
-    paddingHorizontal: 18,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  filterBtnTextActive: {
-    color: "#fff",
-  },
+    filterBtn: {
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "white",
+        paddingHorizontal: 18,
+        paddingVertical: 8,
+        borderRadius: 20,
+    },
+    filterBtnTextActive: {
+        color: "#fff",
+    },
 
-  // Car Card List
-  carScrollView: {
-    flex: 1,
-    marginTop: 10,
-  },
-  carColumn: {
-    paddingBottom: 120,
-    gap: 15,
-    alignItems: "center",
-  },
+    // Car Card List
+    carScrollView: {
+        flex: 1,
+        marginTop: 10,
+    },
+    carColumn: {
+        paddingBottom: 120,
+        gap: 15,
+        alignItems: "center",
+    },
 });
 
