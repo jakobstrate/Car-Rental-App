@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     filterBtn: {
-        backgroundColor: "#e2e2e2",
+        backgroundColor: "#fff",
+        marginLeft: 10,
         borderRadius: 20,
         paddingVertical: 8,
         paddingHorizontal: 15,
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 15,
         borderRadius: 8,
-        backgroundColor: "#f0f0f0",
+        backgroundColor: "#fff",
         marginBottom: 8,
     },
     optionButtonSelected: {

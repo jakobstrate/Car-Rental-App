@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
     filterBarRow: {
         flexDirection: "row",
         alignItems: "center",
-        gap: 10,
     },
 
     filterBtn: {

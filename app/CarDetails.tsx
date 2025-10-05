@@ -156,17 +156,17 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: "center",
         height: '100%',
-        backgroundColor: '#ffffffff',
+        backgroundColor: '#fff',
+
     },
     topBar: {
         width: '100%',
         height: '7.5%',
         flexDirection: 'row',
-        backgroundColor: 'rgba(255, 255, 255, 1)',
+        backgroundColor: '#fff',
         justifyContent: 'flex-start',
         alignItems: 'center',
         elevation: 10,
-        zIndex: 10,
         paddingLeft: 10,
     },
     backBtn: {
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         height: '100%',
         width: '100%',
-        backgroundColor: '#ffffffff',
+        backgroundColor: '#fff',
 
     },
     carImg: {
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     rentPrHourText: {
         fontWeight: 'bold',
         fontSize: 20,
-        color: '#6dd7fd',
+        color: '#269accff',
     },
     confirmBtn: {
         width: 100,
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     confirmTxt: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#ffffffff',
+        color: '#fff',
     },
     confirmRentalDiscTxt: {
         fontSize: 8,
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     totalCostValueText: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#0093CBff',
+        color: '#269accff',
     },
 
 });
@@ -309,6 +309,7 @@ const basicCarInfoCardStyle = StyleSheet.create({
         borderWidth: 1,
         paddingLeft: 8,
         paddingTop: 8,
+        
     },
     typeTxt: {
         fontSize: 14,
@@ -346,5 +347,6 @@ const specItemStyle = StyleSheet.create({
         fontWeight: 'bold',
         color: '#000000ff',
         textAlign: 'right',
+        
     }
 });

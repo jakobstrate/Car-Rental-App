@@ -16,7 +16,7 @@ export default function CarCard({ car }) {
             <View style={styles.detailsBox}>
                 <Text style={styles.carTitle}>{car.brand + " " + car.modelName}</Text>
                 <Text>{car.description}</Text>
-                <Text style={styles.carCost}>Cost: {car.rentPerHour + "$ / hour"}</Text>
+                <Text style={styles.carCost}>Cost: {car.rentPerHour + " Dkk / Hour"}</Text>
             </View>
 
             <Image source={{ uri: `${API}/${car.image}` }} style={styles.carImg} />
