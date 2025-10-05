@@ -34,7 +34,7 @@ export default function CarCard({ name, cost, image, car }) {
       <View style={styles.detailsBox}>
         <Text style={styles.carTitle}>{car.brand + " " + car.modelName}</Text>
         <Text>{car.description}</Text>
-        <Text style={styles.carCost}>Cost: {car.rentPerHour + " dollars per hour"}</Text>
+        <Text style={styles.carCost}>Cost: {car.rentPerHour + "$ / hour"}</Text>
       </View>
       
       <Image source={{uri: `${API}/${car.image}`}} style={styles.carImg} />
@@ -46,33 +46,42 @@ export default function CarCard({ name, cost, image, car }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: '90%',
-    height: 200,
-    marginVertical: 8, 
-    backgroundColor: '#eee', 
-    borderRadius: 8,
+    width: '95%',
+    height: 180,
+    marginVertical: 10,
+    backgroundColor: '#fff',
+    borderRadius: 12,
     flexDirection: 'row',
-    gap: 10,
+    overflow: 'hidden',
   },
+
+  // Car details
   detailsBox: {
-    flex: 1,
-    flexDirection: 'column',
+    flex: 0.6,
+    padding: 12,
+    justifyContent: 'space-between',
   },
   carTitle: {
-    fontWeight: 'bold', 
-    marginBottom: 4,
-    fontSize: 32,
+    fontWeight: '700',
+    fontSize: 18,
+    color: '#111',
   },
-  carImg: {
-    flex: 1,
-    height: '100%', 
-    backgroundColor: '#ccc', 
-    marginBottom: 4 
+  carDescription: {
+    fontSize: 14,
+    color: '#555',
   },
   carCost: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    marginTop: 'auto',
-    marginBottom: 10,
+    fontWeight: '600',
+    fontSize: 16,
+    color: '#269accff',
+
+  },
+
+  // car image
+  carImg: {
+    flex: 1,
+    backgroundColor: 'lightgrey',
+    height: '100%',
+    resizeMode: 'cover',
   },
 });
