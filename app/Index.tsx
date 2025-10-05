@@ -19,7 +19,7 @@ export default function Index() {
                 style={styles.button}
                 onPress={() => navigation.navigate("DiscoverStack")}
             >
-                <Text style={styles.btnText}>Enter Location</Text>
+                <Text style={styles.btnText}>Discover Cars</Text>
             </TouchableOpacity>
 
             {!user ? (

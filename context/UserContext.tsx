@@ -2,7 +2,7 @@ import { RootStackParamList } from "@/types/navigation";
 import { User } from "@/types/User";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
@@ -22,6 +22,21 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
+    useEffect(() => {
+        const loadUser = async () => {
+            try {
+                const storedUser = await AsyncStorage.getItem("currentUser");
+                const user: User = JSON.parse(storedUser);
+                if (storedUser) {
+                    login(user.email, user.password);
+                }
+            } catch (e) {
+                console.error("Failed to load user from async storage", e);
+            }
+        };
+        loadUser();
+    }, []);
+
     const login = async (email: string, password: string, navigation?: RootStackNavigationProp) => {
         if (!email || !password) {
             Alert.alert("Error", "Please fill in all fields");
@@ -39,8 +54,6 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
                 await AsyncStorage.setItem("currentUser", JSON.stringify(foundUser));
                 setUser(foundUser);
                 setLoggedIn(true);
-
-                Alert.alert("Welcome", `Login successful, ${foundUser.fullName}`);
 
                 if (navigation) {
                     navigation.pop(2);

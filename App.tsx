@@ -42,7 +42,7 @@ function getTabBarStyle(route, hiddenRoutes = []) {
 
 function MainTabs() {
     return (
-        <Tab.Navigator screenOptions={({ route }) => {
+        <Tab.Navigator initialRouteName="Home" screenOptions={({ route }) => {
           const Icon = tabIcons[route.name];
           return {
             headerShown: false,
