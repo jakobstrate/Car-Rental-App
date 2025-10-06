@@ -43,17 +43,15 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#ffffffff',
         width: '90%',
-        height: 200,
+        height: 225,
         marginVertical: 8,
         borderRadius: 15,
         flexDirection: 'column',
         paddingLeft: 12,
-
         borderTopWidth: 0,
         borderRightWidth: 1,
         borderBottomWidth: 4,
         borderLeftWidth: 1,
-
         borderColor: "rgba(0, 0, 0, 0.2)",
     },
     detailsBox: {
@@ -71,8 +69,8 @@ const styles = StyleSheet.create({
     carImg: {
         width: '50%',
         height: '100%',
-        resizeMode: 'contain',
-        marginBottom: 4,
+        objectFit: 'cover',
+        borderRadius: 20,
     },
     topRow: {
         height: '20%',
@@ -87,8 +85,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: '30%',
         alignItems: 'center',
-        gap: 20,
-        bottom: 5
     },
     boldTxt: {
         fontSize: 16,

@@ -43,10 +43,10 @@ const styles = StyleSheet.create({
     height: 50,
     width: '70%',
     justifyContent: 'center',
-    borderColor: '#0093cbff',
+    borderColor: '#269accff',
     borderWidth: 2,
     borderRadius: 5,
-    gap: 2,
+    marginBottom: 20,
   },
   dateRangeBarBody: {
     height: '80%',
@@ -64,9 +64,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     alignSelf: 'flex-start',
-    color: '#0093cbff',
+    color: '#269accff',
     left: 15,
-    backgroundColor: '#ffffffff',
+    backgroundColor: '#fff',
     paddingHorizontal: 5,
     top: 2,
   },
@@ -75,6 +75,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     alignSelf: 'flex-start',
     left: 15,
-    color: '#7e7e7eff',
+
   }
 });

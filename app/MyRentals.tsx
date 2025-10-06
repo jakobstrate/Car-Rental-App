@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: "center",
         alignItems: "center",
-        top: 30,
+        top: 50,
     },
     carScrollView: {
         width: '100%',

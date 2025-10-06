@@ -93,10 +93,11 @@ const styles = StyleSheet.create({
     height: 50,
     width: '70%',
     justifyContent: 'center',
-    borderColor: '#0093cbff',
     borderWidth: 2,
     borderRadius: 5,
-    gap: 2,
+    borderColor: '#269accff',
+    marginBottom:20,
+  
   },
   datePickerBtn: {
     height: '80%',
@@ -104,27 +105,30 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     flexDirection: 'row',
+    
   },
   datePickerBtnText: {
     color: 'black',
     fontSize: 16,
     fontWeight: '400',
+    
   },
   label: {
     fontSize: 16,
     fontWeight: 'bold',
     alignSelf: 'flex-start',
-    color: '#0093cbff',
     left: 15,
-    backgroundColor: '#ffffffff',
+    backgroundColor: '#fff',
+    borderRadius: 20,
     paddingHorizontal: 5,
     top: 2,
+    color: '#269accff',
   },
   trailingTxt: {
     fontSize: 12,
     fontWeight: '400',
     alignSelf: 'flex-start',
     left: 15,
-    color: '#7e7e7eff',
+    
   }
 });

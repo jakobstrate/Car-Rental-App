@@ -3,6 +3,7 @@ import FuelTypeIcon from "@/assets/images/icons/FuelTypeIcon.svg";
 import MileageIcon from "@/assets/images/icons/MileageIcon.svg";
 import TransmissionTypeIcon from "@/assets/images/icons/TransmissionIcon.svg";
 import DateRangePicker from "@/Components/DateRangePicker";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useBookings } from "@/context/BookingContext";
 import { useUser } from "@/context/UserContext";
 import { Booking } from "@/types/Booking";
@@ -78,7 +79,7 @@ export default function CarDetails({ navigation, route }: Props) {
     const [endDate, setEndDate] = useState<Date | undefined>(undefined);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.topBar}>
                 <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}><BackIcon width={42} height={42} /></TouchableOpacity>
                 <Text style={styles.title} adjustsFontSizeToFit={true}>{route.params.car.brand + " " + route.params.car.modelName}</Text>
@@ -121,7 +122,7 @@ export default function CarDetails({ navigation, route }: Props) {
 
 
             </ScrollView>
-            <View style={styles.bottomBar}>
+            <SafeAreaView style={styles.bottomBar} edges={['bottom']}>
 
                 <DateRangePicker
                     startDate={startDate}
@@ -145,8 +146,8 @@ export default function CarDetails({ navigation, route }: Props) {
                 <Text style={styles.confirmRentalDiscTxt}>* upon returning the vehicle, the cost of the rent is reduces based on time remaining till deadline,
                     and an additional cost is added based on fuel consumption.
                 </Text>
-            </View>
-        </View>
+            </SafeAreaView>
+        </SafeAreaView>
 
     );
 }
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
         alignItems: "center",
-        height: '100%',
+        height: '100%', 
         backgroundColor: '#fff',
 
     },
@@ -163,15 +164,10 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '7.5%',
         flexDirection: 'row',
-        backgroundColor: '#fff',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        elevation: 10,
         paddingLeft: 10,
-    },
-    backBtn: {
-        //backgroundColor: '#7e7e7eff', 
-
+        
     },
     title: {
         position: 'absolute',
@@ -184,14 +180,13 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         height: '100%',
         width: '100%',
-        backgroundColor: '#fff',
-
     },
     carImg: {
         height: 200,
-        width: '100%',
-        objectFit: 'contain',
-
+        width: '95%',
+        objectFit: 'cover',
+        borderRadius: 20
+        
     },
     seperator: {
         width: '90%',
@@ -206,15 +201,15 @@ const styles = StyleSheet.create({
         alignItems: 'baseline',
         flexDirection: 'row',
         gap: 8,
+        
     },
     rentCostText: {
         fontSize: 16,
-        color: '#000000ff',
     },
     rentPrHourText: {
         fontWeight: 'bold',
         fontSize: 20,
-        color: '#269accff',
+        color: '#269accff'
     },
     confirmBtn: {
         width: 100,
@@ -245,8 +240,9 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         height: '20%',
         justifyContent: 'space-between',
-        paddingBottom: 10,
+        paddingBottom: 50,
         paddingTop: 10,
+
     },
     confirmRentalBar: {
         width: '100%',
@@ -256,6 +252,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
         alignItems: 'center',
+        
     },
     totalCostText: {
         fontSize: 20,
@@ -264,7 +261,7 @@ const styles = StyleSheet.create({
     totalCostValueText: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#269accff',
+        color: '#269accff'
     },
 
 });
@@ -305,7 +302,7 @@ const basicCarInfoCardStyle = StyleSheet.create({
         width: 100,
         backgroundColor: '#d9d9d94f',
         borderRadius: 20,
-        borderColor: '#00000014',
+        borderColor: '#000000ff',
         borderWidth: 1,
         paddingLeft: 8,
         paddingTop: 8,

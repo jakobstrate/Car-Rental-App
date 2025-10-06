@@ -3,6 +3,7 @@ import FuelTypeIcon from "@/assets/images/icons/FuelTypeIcon.svg";
 import MileageIcon from "@/assets/images/icons/MileageIcon.svg";
 import TransmissionTypeIcon from "@/assets/images/icons/TransmissionIcon.svg";
 import DateRangeViewBar from "@/Components/DateRangeViewBar";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useBookings } from '@/context/BookingContext';
 import { RootStackParamList } from "@/types/navigation";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -46,7 +47,7 @@ export default function BookingDetails({ navigation, route }: Props) {
 
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.topBar}>
                 <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}><BackIcon width={42} height={42} /></TouchableOpacity>
                 <Text style={styles.title} adjustsFontSizeToFit={true}>{route.params.booking.car.brand + " " + route.params.booking.car.modelName}</Text>
@@ -89,7 +90,7 @@ export default function BookingDetails({ navigation, route }: Props) {
 
 
             </ScrollView>
-            <View style={styles.bottomBar}>
+            <SafeAreaView style={styles.bottomBar}edges={['bottom']}>
 
                 <DateRangeViewBar
                     startDate={new Date(route.params.booking.rentalStart)}
@@ -102,13 +103,15 @@ export default function BookingDetails({ navigation, route }: Props) {
                         <Text style={styles.totalCostValueText}>{route.params.booking.totalCost.toFixed(2) + "DKK"}</Text>
                     </View>
 
-                    <TouchableOpacity style={styles.cancelBtn} onPress={() => cancelBooking()}><Text style={styles.cancelTxt}>Cancel</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.cancelBtn} onPress={() => cancelBooking()}>
+                        <Text style={styles.cancelTxt}>Cancel</Text>
+                    </TouchableOpacity>
                 </View>
                 <Text style={styles.cancelRentalDiscTxt}>* upon returning the vehicle, the cost of the rent is reduces based on time remaining till deadline,
                     and an additional cost is added based on fuel consumption.
                 </Text>
-            </View>
-        </View>
+            </SafeAreaView>
+        </SafeAreaView>
 
     );
 }
@@ -118,22 +121,15 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: "center",
         height: '100%',
-        backgroundColor: '#ffffffff',
+        backgroundColor: '#fff',
     },
     topBar: {
         width: '100%',
         height: '7.5%',
         flexDirection: 'row',
-        backgroundColor: 'rgba(255, 255, 255, 1)',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        elevation: 10,
-        zIndex: 10,
         paddingLeft: 10,
-    },
-    backBtn: {
-        //backgroundColor: '#7e7e7eff', 
-
     },
     title: {
         position: 'absolute',
@@ -146,13 +142,13 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         height: '100%',
         width: '100%',
-        backgroundColor: '#ffffffff',
 
     },
     carImg: {
         height: 200,
-        width: '100%',
-        objectFit: 'contain',
+        width: '95%',
+        objectFit: 'cover',
+        borderRadius: 20
 
     },
     seperator: {
@@ -171,12 +167,11 @@ const styles = StyleSheet.create({
     },
     rentCostText: {
         fontSize: 16,
-        color: '#000000ff',
     },
     rentPrHourText: {
         fontWeight: 'bold',
         fontSize: 20,
-        color: '#6dd7fd',
+        color: '#269accff',
     },
     cancelBtn: {
         width: 100,
@@ -189,7 +184,7 @@ const styles = StyleSheet.create({
     cancelTxt: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#ffffffff',
+        color: '#fff',
     },
     cancelRentalDiscTxt: {
         fontSize: 8,
@@ -207,7 +202,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         height: '20%',
         justifyContent: 'space-between',
-        paddingBottom: 10,
+        paddingBottom: 50,
         paddingTop: 10,
     },
     cancelRentalBar: {
@@ -226,7 +221,7 @@ const styles = StyleSheet.create({
     totalCostValueText: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#0093CBff',
+        color: '#269accff',
     },
 
 });
@@ -267,7 +262,7 @@ const basicCarInfoCardStyle = StyleSheet.create({
         width: 100,
         backgroundColor: '#d9d9d94f',
         borderRadius: 20,
-        borderColor: '#00000014',
+        borderColor: '#000000ff',
         borderWidth: 1,
         paddingLeft: 8,
         paddingTop: 8,
