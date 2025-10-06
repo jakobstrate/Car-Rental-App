@@ -121,7 +121,16 @@ app.put("/cars/image", (req, res) => {
     res.json("Table updated successfully");
   });
 });
-
+app.put("/cars/color", (req, res) => {
+  const {id, color} = req.body
+  db.run(`UPDATE cars SET color = ? WHERE id = ?`, [color, id], (err) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json("Table updated successfully");
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
