@@ -1,9 +1,9 @@
+import { API } from "@/constants";
 import { RootStackParamList } from "@/types/navigation";
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { API } from "@/constants"
 
 
 type DiscoverNavProp = NativeStackNavigationProp<RootStackParamList, "Discover">;
@@ -35,6 +35,13 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         flexDirection: 'row',
         overflow: 'hidden',
+
+        borderTopWidth: 0,
+        borderRightWidth: 1,
+        borderBottomWidth: 4,
+        borderLeftWidth: 1,
+
+        borderColor: "rgba(0, 0, 0, 0.2)",
     },
 
     // Car details
