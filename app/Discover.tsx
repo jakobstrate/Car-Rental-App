@@ -4,7 +4,7 @@ import { Car } from "@/types/Car";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { API } from "@/constants"
 
 
@@ -23,10 +23,24 @@ export default function Discover() {
         setFilters((prev) => ({ ...prev, [key]: value }));
     };
 
+    const clearFilters = () => {
+        setFilters({
+            carType: null,
+            transmission: null,
+            fuelType: null,
+            color: null,
+            numberOfSeats: null,
+        });
+    };
+
 
     const FilterBar = () => (
         <View style={styles.filterContainer}>
             <ScrollView horizontal={true} contentContainerStyle={styles.filterBarRow} showsHorizontalScrollIndicator={false}>
+                <TouchableOpacity style={styles.clearBtn} onPress={clearFilters}>
+                    <Text>Clear Filters</Text>
+                </TouchableOpacity>
+
                 <ModalFilter
                     label={"Car Type"}
                     options={["Sedan", "SUV", "SportsCar", "Hatchback", "Wagon"]}
@@ -131,6 +145,15 @@ const styles = StyleSheet.create({
     filterBarRow: {
         flexDirection: "row",
         alignItems: "center",
+    },
+
+    clearBtn: {
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "white",
+        paddingHorizontal: 18,
+        paddingVertical: 8,
+        borderRadius: 20,
     },
 
     filterBtn: {
