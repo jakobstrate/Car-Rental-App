@@ -129,6 +129,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     alignSelf: 'flex-start',
     left: 15,
-    
+    color: '#0000007a',
   }
 });

@@ -3,18 +3,18 @@ import FuelTypeIcon from "@/assets/images/icons/FuelTypeIcon.svg";
 import MileageIcon from "@/assets/images/icons/MileageIcon.svg";
 import TransmissionTypeIcon from "@/assets/images/icons/TransmissionIcon.svg";
 import DateRangePicker from "@/Components/DateRangePicker";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { API } from "@/constants";
 import { useBookings } from "@/context/BookingContext";
 import { useUser } from "@/context/UserContext";
+import { basicCarInfoCardStyle, bottomBarContainerStyles, detailsViewStyle, specItemStyle } from "@/styles/CarDetailSreensStyles/CarDetailsScrollViewStyles";
 import { Booking } from "@/types/Booking";
 import { Car } from "@/types/Car";
 import { RootStackParamList } from "@/types/navigation";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { SvgProps } from "react-native-svg";
-import { API } from "@/constants"
-
 
 
 type Props = NativeStackScreenProps<RootStackParamList, "CarDetails">;
@@ -67,10 +67,8 @@ export default function CarDetails({ navigation, route }: Props) {
         </View>
     );
 
-    const SpecTextItem: React.FC<{ specText: string, valueText: string }> = ({ specText, valueText }) => (
+    const SpecTextItem: React.FC<{valueText: string }> = ({valueText }) => (
         <View style={specItemStyle.specContainer}>
-            <Text style={specItemStyle.specTxt}>{specText}</Text>
-            <Text style={specItemStyle.seperatorColon}>{":"}</Text>
             <Text style={specItemStyle.valueTxt}>{valueText}</Text>
         </View>
     );
@@ -84,7 +82,7 @@ export default function CarDetails({ navigation, route }: Props) {
                 <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}><BackIcon width={42} height={42} /></TouchableOpacity>
                 <Text style={styles.title} adjustsFontSizeToFit={true}>{route.params.car.brand + " " + route.params.car.modelName}</Text>
             </View>
-            <ScrollView style={styles.bodyScrollView} contentContainerStyle={{ alignItems: 'center', gap: 10, paddingBottom: 100 }}>
+            <ScrollView style={styles.bodyScrollView} contentContainerStyle={{ alignItems: 'center', gap: 10, paddingBottom: 335, overflow: 'visible' }}>
                 <Image source={{ uri: `${API}/${route.params.car.image}` }} style={styles.carImg} />
                 <View style={styles.rentInfo}>
                     <Text style={styles.rentCostText}>Rent cost :</Text>
@@ -101,28 +99,26 @@ export default function CarDetails({ navigation, route }: Props) {
                         <Text style={detailsViewStyle.sectionTitle}>Description</Text>
                         <Text style={detailsViewStyle.descriptionTxt}>{route.params.car.description}</Text>
                     </View>
+                    <View style={styles.seperator} />
                     <View>
-                        <Text style={detailsViewStyle.sectionTitle}>Specifications</Text>
-                        <View style={detailsViewStyle.specBox}>
-                            <SpecTextItem specText="Car Type" valueText={route.params.car.carType} />
-                            <SpecTextItem specText="Color" valueText={route.params.car.color} />
-                            <SpecTextItem specText="Model Year" valueText={route.params.car.modelYear.toString()} />
-                            <SpecTextItem specText="Number of Seats" valueText={route.params.car.numberOfSeats.toString()} />
+                        <Text style={detailsViewStyle.sectionTitle}>Specifications & Extras</Text>
+                        <View style={detailsViewStyle.specGrid}>                            
+                            <SpecTextItem valueText={route.params.car.carType} />
+                            <SpecTextItem valueText={route.params.car.color} />
+                            <SpecTextItem valueText={route.params.car.modelYear.toString() + " Model"} />
+                            <SpecTextItem valueText={route.params.car.numberOfSeats.toString() + " Seats"} />
+                            {route.params.car.extras.map((extra, index) => (
+                            <SpecTextItem key={index} valueText={extra}/>
+                            ))}
+                            
                         </View>
-                    </View>
-                    <View style={styles.extrasSection}>
-                        <Text style={detailsViewStyle.sectionTitle}>Extras</Text>
-                        {route.params.car.extras.map((extra, index) => (
-                            <Text key={index} style={detailsViewStyle.descriptionTxt} >
-                                - {extra}
-                            </Text>
-                        ))}
+                                            
                     </View>
                 </View>
 
 
             </ScrollView>
-            <SafeAreaView style={styles.bottomBar} edges={['bottom']}>
+            <SafeAreaView style={bottomBarContainerStyles.bottomBar} edges={['bottom']}>
 
                 <DateRangePicker
                     startDate={startDate}
@@ -234,16 +230,6 @@ const styles = StyleSheet.create({
         height: 100,
         width: '100%',
     },
-    bottomBar: {
-        width: '100%',
-        alignItems: 'center',
-        flexDirection: 'column',
-        height: '20%',
-        justifyContent: 'space-between',
-        paddingBottom: 50,
-        paddingTop: 10,
-
-    },
     confirmRentalBar: {
         width: '100%',
         height: 60,
@@ -266,84 +252,4 @@ const styles = StyleSheet.create({
 
 });
 
-const detailsViewStyle = StyleSheet.create({
-    detailsView: {
-        height: 360,
-        width: '90%',
-        gap: 10,
-    },
-    basicCarInfoCards: {
-        height: 100,
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        gap: 10,
-    },
-    specBox: {
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    sectionTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    descriptionTxt: {
-        fontSize: 16,
-    }
-});
 
-
-const basicCarInfoCardStyle = StyleSheet.create({
-
-    container: {
-        height: 100,
-        width: 100,
-        backgroundColor: '#d9d9d94f',
-        borderRadius: 20,
-        borderColor: '#000000ff',
-        borderWidth: 1,
-        paddingLeft: 8,
-        paddingTop: 8,
-        
-    },
-    typeTxt: {
-        fontSize: 14,
-    },
-    valueTxt: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        color: '#000000ff',
-    }
-});
-
-const specItemStyle = StyleSheet.create({
-    specContainer: {
-        flexDirection: 'row',
-        gap: 5,
-        alignItems: 'center',
-        marginLeft: 20,
-        marginRight: 20,
-    },
-    specTxt: {
-        flex: 1,
-        fontSize: 18,
-        color: '#000000ff',
-        textAlign: 'left',
-    },
-    seperatorColon: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#000000ff',
-        textAlign: 'center',
-    },
-    valueTxt: {
-        flex: 1,
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#000000ff',
-        textAlign: 'right',
-        
-    }
-});
