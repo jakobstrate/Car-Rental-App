@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
         width: 80,
         alignItems: 'center',
         flexDirection: 'row',
+        boxShadow: "0 -2px 0px #369AFF, 0 3px 2px rgba(0,0,0,0.25)",
     },
     backIcon: {
        
