@@ -1,4 +1,4 @@
-import BackIcon from "@/assets/images/icons/BackIcon.svg";
+import BackBtn from "@/Components/BackBtn";
 import BasicCarInfoCards from "@/Components/CarDetailsScreen/BasicCarInfoCards";
 import DateRangeViewBar from "@/Components/DateRangeViewBar";
 import { API } from "@/constants";
@@ -29,7 +29,7 @@ export default function BookingDetails({ navigation, route }: Props) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topBar}>
-                <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}><BackIcon width={42} height={42} /></TouchableOpacity>
+                <BackBtn onPress={() => navigation.goBack()}/>
                 <Text style={styles.title} adjustsFontSizeToFit={true}>{route.params.booking.car.brand + " " + route.params.booking.car.modelName}</Text>
             </View>
             <ScrollView style={styles.bodyScrollView} contentContainerStyle={{ alignItems: 'center', gap: 10, paddingBottom: 335, overflow: 'visible'}}>
@@ -99,13 +99,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     topBar: {
+        backgroundColor: '#fff',
         width: '100%',
         height: '7.5%',
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingLeft: 10,
-        boxShadow: '20',
+        zIndex: 10,
+        boxShadow: "0 10px 10px rgba(0,0,0,0.5)",
+        borderBottomColor: "rgba(0, 0, 0, 0.5)",
+        borderBottomWidth: 1,
     },
     title: {
         position: 'absolute',
@@ -116,6 +120,7 @@ const styles = StyleSheet.create({
     },
     bodyScrollView: {
         width: '100%',
+        paddingTop: 10,
     },
     carImg: {
         height: 200,
@@ -147,6 +152,23 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#269accff',
     },
+    backBtn: {
+        backgroundColor: '#007FFF',
+        borderRadius: 100,
+        height: 40,
+        width: 80,
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    backIcon: {
+       
+    },
+    backTxt: {
+        color: '#ffffffff',
+        fontWeight: 'bold',
+        right: 15,
+        bottom: 1,
+    }
 });
 
 const bottomBarStyles = StyleSheet.create({ 

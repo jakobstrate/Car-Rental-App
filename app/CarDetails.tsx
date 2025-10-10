@@ -1,4 +1,4 @@
-import BackIcon from "@/assets/images/icons/BackIcon.svg";
+import BackBtn from "@/Components/BackBtn";
 import BasicCarInfoCards from "@/Components/CarDetailsScreen/BasicCarInfoCards";
 import DateRangePicker from "@/Components/DateRangePicker";
 import { API } from "@/constants";
@@ -77,7 +77,7 @@ export default function CarDetails({ navigation, route }: Props) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topBar}>
-                <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}><BackIcon width={42} height={42} /></TouchableOpacity>
+                <BackBtn onPress={() => navigation.goBack()}/>
                 <Text style={styles.title} adjustsFontSizeToFit={true}>{route.params.car.brand + " " + route.params.car.modelName}</Text>
             </View>
             <ScrollView style={styles.bodyScrollView} contentContainerStyle={{ alignItems: 'center', gap: 10, paddingBottom: 335, overflow: 'visible' }}>
