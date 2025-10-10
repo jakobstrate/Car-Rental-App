@@ -1,6 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Image, ImageBackground } from "react-native";
 import { useUser } from "@/context/UserContext";
 import { useNavigation } from "@react-navigation/native";
+import TitleCard from "@/Components/TitleCard";
+import GradientNavButton from "@/Components/GradientNavButton";
+import { default_theme } from "@/styles/colors";
+import ProfileIcon from '@/assets/images/icons/ProfileIcon.svg';
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Index() {
     const { user, logout } = useUser();
@@ -11,71 +16,231 @@ export default function Index() {
     };
 
     return (
-        <View style={styles.view}>
-            <Text style={styles.title}>PrimeCar</Text>
-            {user && <Text style={styles.welcomeText}>Welcome {user.fullName}</Text>}
+        <View style={styles.root}>
+            <TitleCard />
 
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate("DiscoverStack")}
-            >
-                <Text style={styles.btnText}>Discover Cars</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonRowView}>
 
-            {!user ? (
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate("Login")}
+                <View style={styles.discoverView}>
+                    <GradientNavButton
+                        onPress={() => navigation.navigate("DiscoverStack")}
+                        style={styles.defaultBackground}
+                    >
+                        <Image
+                            source={require("@/assets/images/vwpolo.png")}
+                            style={styles.discoverImg}
+                        />
+                        <Text style={styles.discoverText}>Discover</Text>
+                    </GradientNavButton>
+                </View>
+
+                <View style={styles.profileView}>
+                    <GradientNavButton
+                        onPress={() => {
+                            if (user) {
+                                navigation.navigate("MyRentalsStack");
+                            } else {
+                                navigation.navigate("Login");
+                            }
+                        }}
+                        style={styles.defaultBackground}
+                    >
+                        <ProfileIcon
+                            width={48}
+                            height={48}
+                            stroke={default_theme.text}
+                            strokeWidth={2}
+                        />
+                        {user && (
+
+                            <Text style={styles.accountButtonText}>{user.fullName}</Text>
+                        )}
+                    </GradientNavButton>
+                </View>
+
+            </View>
+
+            <View style={styles.featuredView}>
+                <GradientNavButton
+                    onPress={() => console.log("Pressed Featured")}
+                    style={styles.defaultBackground}
                 >
-                    <Text style={styles.btnText}>Login</Text>
-                </TouchableOpacity>
+                    <View style={styles.featuredTextView}>
+                        <Text style={styles.featuredText}>Featured</Text>
+                    </View>
+
+                    <View style={styles.featuredImgView}>
+                        <ImageBackground
+                            source={require("@/assets/images/cars/Audi R8.png")}
+                            style={styles.featuredImg}
+                            imageStyle={{ borderRadius: 20, }}
+                        >
+                            <LinearGradient
+                                style={{ width: "100%", height: "100%", borderRadius: 20 }}
+                                colors={["#000000E6", "#00000000"]}
+                                start={{ x: 0, y: 0 }}
+                                end={{ x: 1, y: 0 }}
+                            >
+                                <View style={styles.detailsView}>
+                                    <View>
+                                        <Text style={styles.detailsHead}>Audi A8</Text>
+                                        <Text style={styles.detailsBody}>High-performance supercar with a V10 engine.</Text>
+                                    </View>
+
+                                    <Text style={styles.detailsPrice}>300 dkk / Hour</Text>
+                                </View>
+                            </LinearGradient>
+                        </ImageBackground>
+                    </View>
+                </GradientNavButton>
+            </View >
+
+            <View style={styles.loginView}>
+            {!user ? (
+                <GradientNavButton
+                    onPress={() => navigation.navigate("Login")}
+                    style={styles.defaultBackground}
+                >
+                    <Text style={styles.lrText}>Login</Text>
+                </GradientNavButton>
             ) : (
-                <TouchableOpacity style={styles.button} onPress={handleLogout}>
-                    <Text style={styles.btnText}>Logout</Text>
-                </TouchableOpacity>
+                <GradientNavButton
+                    onPress={() => handleLogout()}
+                    style={styles.defaultBackground}
+                >
+                    <Text style={styles.lrText}>Logout</Text>
+                </GradientNavButton>
+
             )}
-        </View>
+            </View>
+        </View >
     );
 }
 
 const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
-  },
+    root: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "space-around",
+        paddingTop: 40,
+        paddingHorizontal: 15,
+    },
 
-  title: {
-    fontSize: 58,
-    fontWeight: "800",
-    color: "#fff",
-    marginBottom: 10,
-    textAlign: "center",
-  },
+    buttonRowView: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 20,
+        height: "25%",
+    },
 
-  welcomeText: {
-    fontSize: 20,
-    fontWeight: "500",
-    color: "#fff",
-    marginBottom: 50,
-    textAlign: "center",
-  },
+    discoverView: {
+        paddingVertical: 10,
+        width: "60%",
+    },
 
-  button: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    paddingVertical: 14,
-    marginVertical: 10,
-    width: "80%",
-  },
-  btnText: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#269accff",
-  },
+    discoverImg: {
+        width: "100%",
+        height: 120,
+        resizeMode: "contain",
+    },
+
+    discoverText: {
+        fontSize: 36,
+        fontWeight: "800",
+        color: default_theme.text,
+        textAlign: "center",
+    },
+
+    profileView: {
+        width: "35%",
+        height: "60%",
+    },
+
+    accountButtonText: {
+        fontSize: 16,
+        fontWeight: "300",
+        color: default_theme.text,
+        textAlign: "center",
+    },
+
+    featuredView: {
+        width: "100%",
+        height: "25%",
+    },
+
+    featuredTextView: {
+        alignItems: "flex-start",
+        width: "100%",
+        height: "25%",
+        paddingLeft: 25,
+        marginBottom: 5,
+    },
+
+    featuredText: {
+        fontSize: 36,
+        fontWeight: "600",
+        color: default_theme.text,
+
+        textShadowColor: "#00000080",
+        textShadowRadius: 4,
+        textShadowOffset: { width: -2, height: 2 },
+    },
+
+    featuredImgView: {
+        width: "100%",
+        height: "80%",
+        paddingBottom: 10,
+        paddingHorizontal: 5,
+    },
+
+    featuredImg: {
+        width: "100%",
+        height: "100%",
+        resizeMode: "cover",
+    },
+
+    detailsView: {
+        width: "60%",
+        height: "100%",
+        paddingLeft: 10,
+        justifyContent: "space-between",
+    },
+
+    detailsHead: {
+        color: default_theme.text,
+        fontSize: 24,
+        fontWeight: 600,
+    },
+
+    detailsBody: {
+        color: default_theme.text,
+        fontSize: 12,
+        fontWeight: 300,
+    },
+
+    detailsPrice: {
+        color: default_theme.text,
+        fontSize: 16,
+        fontWeight: 700,
+        marginBottom: 5,
+    },
+
+    loginView: {
+        width: "80%",
+        height: "8%",
+    },
+
+    lrText: {
+        fontSize: 32,
+        fontWeight: "500",
+        color: default_theme.text,
+        textAlign: "center",
+    },
+
+    defaultBackground: {
+        padding: 5,
+        height: "100%",
+    },
 });
 
 

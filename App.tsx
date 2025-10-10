@@ -2,7 +2,7 @@ import DiscoverIcon from '@/assets/images/icons/DiscoverIcon.svg';
 import HomeIcon from '@/assets/images/icons/HomeIcon.svg';
 import ProfileIcon from '@/assets/images/icons/ProfileIcon.svg';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { DefaultTheme, getFocusedRouteNameFromRoute, NavigationContainer } from '@react-navigation/native';
+import { getFocusedRouteNameFromRoute, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { registerRootComponent } from 'expo';
 import React from 'react';
@@ -18,17 +18,8 @@ import { UserProvider } from './context/UserContext';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const MyTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: '#269accff'
-  },
-};
 
 //nav bar bottom styling:
-
-
 const tabIcons = {
   Home: HomeIcon,
   MyRentalsStack: ProfileIcon,
@@ -76,7 +67,7 @@ export default function App() {
     return (
         <UserProvider>
             <BookingProvider>
-                <NavigationContainer theme={MyTheme}>
+                <NavigationContainer>
                     <Stack.Navigator screenOptions={{ headerShown: false }}>
                         <Stack.Screen name="Main" component={MainTabs} />
                         <Stack.Screen name="Login" component={Login} />

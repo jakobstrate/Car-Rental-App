@@ -1,42 +1,43 @@
-import { StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from "react-native"
+import { StyleSheet, TouchableOpacity, ViewStyle } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
+import { default_theme } from "@/styles/colors";
+import { ReactNode } from "react";
 
 interface GradientNavButtonProps {
-    text: string
+    children?: ReactNode
     onPress?: () => void
-    buttonStyle?: ViewStyle
-    textStyle?: TextStyle
-    colors?: string[]
+    style?: ViewStyle | ViewStyle[]
 }
 
 const GradientNavButton = (props: GradientNavButtonProps) => {
     return (
-        <TouchableOpacity onPress={props.onPress}>
+        <TouchableOpacity onPress={props.onPress} style={styles.shadow}>
             <LinearGradient
-                colors={props.colors ?? ["#000000", "#ffffff"]}
+                style={[styles.gradient, props.style]}
+                colors={[default_theme.blue_container_from, default_theme.blue_container_to]}
                 start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={[styles.button, props.buttonStyle]}
+                end={{ x: 0, y: 1 }}
             >
-                <Text style={[styles.text, props.textStyle]}>
-                    {props.text}
-                </Text>
+                {props.children}
             </LinearGradient>
-        </TouchableOpacity>
-    )
+        </TouchableOpacity >
+    );
 }
 
 const styles = StyleSheet.create({
-    button: {
-        borderRadius: 6,
-        alignItems: "center",
-        justifyContent: "center",
+    shadow: {
+        borderRadius: 20,
+
+        boxShadow:
+            "0px 4px 4px 0px #00000040, \
+            0px -4px 0px 0px hsl(210, 100%, 61%)",
     },
 
-    text: {
-        color: "#000000",
-        fontSize: 24,
+    gradient: {
+        borderRadius: 20,
+        justifyContent: "center",
+        alignItems: "center",
     },
 })
 
-export default GradientNavButton
+export default GradientNavButton;
