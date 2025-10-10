@@ -1,26 +1,15 @@
 import BackIcon from "@/assets/images/icons/BackIcon.svg";
-import FuelTypeIcon from "@/assets/images/icons/FuelTypeIcon.svg";
-import MileageIcon from "@/assets/images/icons/MileageIcon.svg";
-import TransmissionTypeIcon from "@/assets/images/icons/TransmissionIcon.svg";
+import BasicCarInfoCards from "@/Components/CarDetailsScreen/BasicCarInfoCards";
 import DateRangeViewBar from "@/Components/DateRangeViewBar";
 import { API } from "@/constants";
 import { useBookings } from '@/context/BookingContext';
-import { basicCarInfoCardStyle, bottomBarContainerStyles, detailsViewStyle, specItemStyle } from "@/styles/CarDetailSreensStyles/CarDetailsScrollViewStyles";
+import { bottomBarContainerStyles, detailsViewStyle, specItemStyle } from "@/styles/CarDetailSreensStyles/CarDetailsScrollViewStyles";
 import { RootStackParamList } from "@/types/navigation";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { SvgProps } from "react-native-svg";
 
 type Props = NativeStackScreenProps<RootStackParamList, "BookingDetails">;
-
-
-type CarInfoCard = {
-    Icon: React.FC<SvgProps>;
-    typeTxt: string;
-    valueTxt: string;
-};
-
 
 export default function BookingDetails({ navigation, route }: Props) {
     const { removeBooking } = useBookings();
@@ -29,14 +18,6 @@ export default function BookingDetails({ navigation, route }: Props) {
         removeBooking(route.params.booking);
         navigation.navigate("MyRentals");
     }
-
-    const BasicCarInfoCard: React.FC<CarInfoCard> = ({ Icon, typeTxt, valueTxt }) => (
-        <View style={basicCarInfoCardStyle.container}>
-            <Icon width={32} height={32} />
-            <Text style={basicCarInfoCardStyle.typeTxt}>{typeTxt}</Text>
-            <Text style={basicCarInfoCardStyle.valueTxt}>{valueTxt}</Text>
-        </View>
-    );
 
     const SpecTextItem: React.FC<{valueText: string }> = ({valueText }) => (
         <View style={specItemStyle.specContainer}>
@@ -59,11 +40,8 @@ export default function BookingDetails({ navigation, route }: Props) {
                 </View>
                 <View style={styles.seperator} />
                 <View style={detailsViewStyle.detailsView}>
-                    <View style={detailsViewStyle.basicCarInfoCards}>
-                        <BasicCarInfoCard Icon={FuelTypeIcon} typeTxt='FuelType' valueTxt={route.params.booking.car.fuelType} />
-                        <BasicCarInfoCard Icon={TransmissionTypeIcon} typeTxt='Transmission' valueTxt={route.params.booking.car.transmission} />
-                        <BasicCarInfoCard Icon={MileageIcon} typeTxt='Mileage' valueTxt={route.params.booking.car.mileage} />
-                    </View>
+                    <BasicCarInfoCards fuelType={route.params.booking.car.fuelType} 
+                    transmission={route.params.booking.car.transmission} mileage={route.params.booking.car.mileage}/>
                     <View>
                         <Text style={detailsViewStyle.sectionTitle}>Description</Text>
                         <Text style={detailsViewStyle.descriptionTxt}>{route.params.booking.car.description}</Text>

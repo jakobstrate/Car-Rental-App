@@ -1,7 +1,5 @@
 import BackIcon from "@/assets/images/icons/BackIcon.svg";
-import FuelTypeIcon from "@/assets/images/icons/FuelTypeIcon.svg";
-import MileageIcon from "@/assets/images/icons/MileageIcon.svg";
-import TransmissionTypeIcon from "@/assets/images/icons/TransmissionIcon.svg";
+import BasicCarInfoCards from "@/Components/CarDetailsScreen/BasicCarInfoCards";
 import DateRangePicker from "@/Components/DateRangePicker";
 import { API } from "@/constants";
 import { useBookings } from "@/context/BookingContext";
@@ -90,11 +88,8 @@ export default function CarDetails({ navigation, route }: Props) {
                 </View>
                 <View style={styles.seperator} />
                 <View style={detailsViewStyle.detailsView}>
-                    <View style={detailsViewStyle.basicCarInfoCards}>
-                        <BasicCarInfoCard Icon={FuelTypeIcon} typeTxt='FuelType' valueTxt={route.params.car.fuelType} />
-                        <BasicCarInfoCard Icon={TransmissionTypeIcon} typeTxt='Transmission' valueTxt={route.params.car.transmission} />
-                        <BasicCarInfoCard Icon={MileageIcon} typeTxt='Mileage' valueTxt={route.params.car.mileage} />
-                    </View>
+                    <BasicCarInfoCards fuelType={route.params.car.fuelType} 
+                    transmission={route.params.car.transmission} mileage={route.params.car.mileage}/>
                     <View>
                         <Text style={detailsViewStyle.sectionTitle}>Description</Text>
                         <Text style={detailsViewStyle.descriptionTxt}>{route.params.car.description}</Text>
