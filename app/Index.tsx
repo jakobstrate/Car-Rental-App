@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, Image, ImageBackground } from "react-native";
 import { useUser } from "@/context/UserContext";
 import { useNavigation } from "@react-navigation/native";
 import TitleCard from "@/Components/TitleCard";
@@ -6,14 +6,29 @@ import GradientNavButton from "@/Components/GradientNavButton";
 import { default_theme } from "@/styles/colors";
 import ProfileIcon from '@/assets/images/icons/ProfileIcon.svg';
 import { LinearGradient } from "expo-linear-gradient";
+import { useCar } from "@/context/CarContext";
+import { useEffect, useState } from "react";
+import { Car } from "@/types/Car";
+import { API } from "@/constants";
+import CarDetails from "./CarDetails";
 
 export default function Index() {
     const { user, logout } = useUser();
+
+    const { cars, getRandomCar } = useCar();
+    const [featuredCar, setFeaturedCar] = useState<Car | null>(null);
+
+
     const navigation = useNavigation();
 
     const handleLogout = async () => {
         logout()
     };
+
+    useEffect(() => {
+        const randomCar = getRandomCar();
+        setFeaturedCar(randomCar);
+    }, [cars]);
 
     return (
         <View style={styles.root}>
@@ -62,56 +77,73 @@ export default function Index() {
 
             <View style={styles.featuredView}>
                 <GradientNavButton
-                    onPress={() => console.log("Pressed Featured")}
+                    onPress={() => {
+                        if (featuredCar) {
+                            navigation.navigate("DiscoverStack", { screen: "CarDetails", params: { car: featuredCar } })
+                        } else {
+                            console.log(featuredCar);
+                        }
+                    }}
                     style={styles.defaultBackground}
                 >
                     <View style={styles.featuredTextView}>
                         <Text style={styles.featuredText}>Featured</Text>
                     </View>
 
-                    <View style={styles.featuredImgView}>
-                        <ImageBackground
-                            source={require("@/assets/images/cars/Audi R8.png")}
-                            style={styles.featuredImg}
-                            imageStyle={{ borderRadius: 20, }}
-                        >
-                            <LinearGradient
-                                style={{ width: "100%", height: "100%", borderRadius: 20 }}
-                                colors={["#000000E6", "#00000000"]}
-                                start={{ x: 0, y: 0 }}
-                                end={{ x: 1, y: 0 }}
+                    {featuredCar ? (
+                        <View style={styles.featuredImgView}>
+                            <ImageBackground
+                                source={{ uri: `${API}/${featuredCar.image}` }}
+                                style={styles.featuredImg}
+                                imageStyle={{ borderRadius: 20, }}
                             >
-                                <View style={styles.detailsView}>
-                                    <View>
-                                        <Text style={styles.detailsHead}>Audi A8</Text>
-                                        <Text style={styles.detailsBody}>High-performance supercar with a V10 engine.</Text>
-                                    </View>
+                                <LinearGradient
+                                    style={{ width: "100%", height: "100%", borderRadius: 20 }}
+                                    colors={["#000000E6", "#00000000"]}
+                                    start={{ x: 0, y: 0 }}
+                                    end={{ x: 1, y: 0 }}
+                                >
+                                    <View style={styles.detailsView}>
+                                        <View>
+                                            <Text style={styles.detailsHead}>{featuredCar.brand + " " + featuredCar.modelName}</Text>
+                                            <Text style={styles.detailsBody}>{featuredCar?.description}</Text>
+                                        </View>
 
-                                    <Text style={styles.detailsPrice}>300 dkk / Hour</Text>
-                                </View>
-                            </LinearGradient>
-                        </ImageBackground>
-                    </View>
+                                        <Text style={styles.detailsPrice}>{featuredCar?.rentPerHour} dkk / Hour</Text>
+                                    </View>
+                                </LinearGradient>
+                            </ImageBackground>
+                        </View>
+                    ) : (
+                        <View style={styles.featuredImgView}>
+                            <Image
+                                style={styles.featuredImg}
+                                source={require("@/assets/images/NoFeatured.png")}
+                            >
+                            </Image>
+                        </View>
+
+                    )}
                 </GradientNavButton>
             </View >
 
-            <View style={styles.loginView}>
-            {!user ? (
-                <GradientNavButton
-                    onPress={() => navigation.navigate("Login")}
-                    style={styles.defaultBackground}
-                >
-                    <Text style={styles.lrText}>Login</Text>
-                </GradientNavButton>
-            ) : (
-                <GradientNavButton
-                    onPress={() => handleLogout()}
-                    style={styles.defaultBackground}
-                >
-                    <Text style={styles.lrText}>Logout</Text>
-                </GradientNavButton>
+            < View style={styles.loginView}>
+                {!user ? (
+                    <GradientNavButton
+                        onPress={() => navigation.navigate("Login")}
+                        style={styles.defaultBackground}
+                    >
+                        <Text style={styles.lrText}>Login</Text>
+                    </GradientNavButton>
+                ) : (
+                    <GradientNavButton
+                        onPress={() => handleLogout()}
+                        style={styles.defaultBackground}
+                    >
+                        <Text style={styles.lrText}>Logout</Text>
+                    </GradientNavButton>
 
-            )}
+                )}
             </View>
         </View >
     );

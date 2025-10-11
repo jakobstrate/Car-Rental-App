@@ -57,6 +57,14 @@ export default function CarDetails({ navigation, route }: Props) {
         navigation.navigate("MyRentalsStack", { screen: "MyRentals" });
     }
 
+    const handleBackPress = () => {
+        if (navigation.canGoBack()) {
+            navigation.goBack();
+        } else {
+            navigation.navigate("Discover");
+        }
+    }
+
     const BasicCarInfoCard: React.FC<CarInfoCard> = ({ Icon, typeTxt, valueTxt }) => (
         <View style={basicCarInfoCardStyle.container}>
             <Icon width={32} height={32} />
@@ -65,7 +73,7 @@ export default function CarDetails({ navigation, route }: Props) {
         </View>
     );
 
-    const SpecTextItem: React.FC<{valueText: string }> = ({valueText }) => (
+    const SpecTextItem: React.FC<{ valueText: string }> = ({ valueText }) => (
         <View style={specItemStyle.specContainer}>
             <Text style={specItemStyle.valueTxt}>{valueText}</Text>
         </View>
@@ -77,7 +85,7 @@ export default function CarDetails({ navigation, route }: Props) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topBar}>
-                <BackBtn onPress={() => navigation.goBack()}/>
+                <BackBtn onPress={handleBackPress} />
                 <Text style={styles.title} adjustsFontSizeToFit={true}>{route.params.car.brand + " " + route.params.car.modelName}</Text>
             </View>
             <ScrollView style={styles.bodyScrollView} contentContainerStyle={{ alignItems: 'center', gap: 10, paddingBottom: 335, overflow: 'visible' }}>
@@ -88,8 +96,8 @@ export default function CarDetails({ navigation, route }: Props) {
                 </View>
                 <View style={styles.seperator} />
                 <View style={detailsViewStyle.detailsView}>
-                    <BasicCarInfoCards fuelType={route.params.car.fuelType} 
-                    transmission={route.params.car.transmission} mileage={route.params.car.mileage}/>
+                    <BasicCarInfoCards fuelType={route.params.car.fuelType}
+                        transmission={route.params.car.transmission} mileage={route.params.car.mileage} />
                     <View>
                         <Text style={detailsViewStyle.sectionTitle}>Description</Text>
                         <Text style={detailsViewStyle.descriptionTxt}>{route.params.car.description}</Text>
@@ -97,17 +105,17 @@ export default function CarDetails({ navigation, route }: Props) {
                     <View style={styles.seperator} />
                     <View>
                         <Text style={detailsViewStyle.sectionTitle}>Specifications & Extras</Text>
-                        <View style={detailsViewStyle.specGrid}>                            
+                        <View style={detailsViewStyle.specGrid}>
                             <SpecTextItem valueText={route.params.car.carType} />
                             <SpecTextItem valueText={route.params.car.color} />
                             <SpecTextItem valueText={route.params.car.modelYear.toString() + " Model"} />
                             <SpecTextItem valueText={route.params.car.numberOfSeats.toString() + " Seats"} />
                             {route.params.car.extras.map((extra, index) => (
-                            <SpecTextItem key={index} valueText={extra}/>
+                                <SpecTextItem key={index} valueText={extra} />
                             ))}
-                            
+
                         </View>
-                                            
+
                     </View>
                 </View>
 
@@ -147,7 +155,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
         alignItems: "center",
-        height: '100%', 
+        height: '100%',
         backgroundColor: '#fff',
 
     },
@@ -158,7 +166,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingLeft: 10,
-        
+
     },
     title: {
         position: 'absolute',
@@ -177,7 +185,7 @@ const styles = StyleSheet.create({
         width: '95%',
         objectFit: 'cover',
         borderRadius: 20
-        
+
     },
     seperator: {
         width: '90%',
@@ -192,7 +200,7 @@ const styles = StyleSheet.create({
         alignItems: 'baseline',
         flexDirection: 'row',
         gap: 8,
-        
+
     },
     rentCostText: {
         fontSize: 16,
@@ -233,7 +241,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
         alignItems: 'center',
-        
+
     },
     totalCostText: {
         fontSize: 20,

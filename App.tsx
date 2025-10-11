@@ -13,6 +13,7 @@ import MyRentalsStack from "./app/MyRentalsStack";
 import Register from './app/Register';
 import { BookingProvider } from './context/BookingContext';
 import { UserProvider } from './context/UserContext';
+import { CarProvider } from './context/CarContext';
 
 
 const Stack = createNativeStackNavigator();
@@ -21,44 +22,44 @@ const Tab = createBottomTabNavigator();
 
 //nav bar bottom styling:
 const tabIcons = {
-  Home: HomeIcon,
-  MyRentalsStack: ProfileIcon,
-  DiscoverStack: DiscoverIcon,
+    Home: HomeIcon,
+    MyRentalsStack: ProfileIcon,
+    DiscoverStack: DiscoverIcon,
 };
 
 function getTabBarStyle(route, hiddenRoutes = []) {
-  const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-  return hiddenRoutes.includes(routeName) ? { display: 'none' } : undefined;
+    const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+    return hiddenRoutes.includes(routeName) ? { display: 'none' } : undefined;
 }
 
 function MainTabs() {
     return (
         <Tab.Navigator initialRouteName="Home" screenOptions={({ route }) => {
-          const Icon = tabIcons[route.name];
-          return {
-            headerShown: false,
-            tabBarIcon: ({ focused, size }) => {
-                const strokeWidth = focused ? 4 : 2;
-                const strokeColor = focused ? '#000000ff' : '#aaa';
-                return Icon ? <Icon width={size} height={size} stroke={strokeColor} fill="none" strokeWidth={strokeWidth} /> : null;
-            },
-              
-            tabBarActiveTintColor: '#007AFF',
-            tabBarInactiveTintColor: '#ABABAB',
-          };
+            const Icon = tabIcons[route.name];
+            return {
+                headerShown: false,
+                tabBarIcon: ({ focused, size }) => {
+                    const strokeWidth = focused ? 4 : 2;
+                    const strokeColor = focused ? '#000000ff' : '#aaa';
+                    return Icon ? <Icon width={size} height={size} stroke={strokeColor} fill="none" strokeWidth={strokeWidth} /> : null;
+                },
+
+                tabBarActiveTintColor: '#007AFF',
+                tabBarInactiveTintColor: '#ABABAB',
+            };
         }}>
             <Tab.Screen name="DiscoverStack" component={DiscoverStack}
                 options={({ route }) => ({
                     tabBarLabel: 'Discover',
                     tabBarStyle: getTabBarStyle(route, ['CarDetails']),
-                })} 
+                })}
             />
             <Tab.Screen name="Home" component={Index} />
             <Tab.Screen name="MyRentalsStack" component={MyRentalsStack}
                 options={({ route }) => ({
                     tabBarLabel: 'MyRentals',
                     tabBarStyle: getTabBarStyle(route, ['BookingDetails']),
-                })}/>
+                })} />
         </Tab.Navigator>
     );
 }
@@ -67,13 +68,15 @@ export default function App() {
     return (
         <UserProvider>
             <BookingProvider>
-                <NavigationContainer>
-                    <Stack.Navigator screenOptions={{ headerShown: false }}>
-                        <Stack.Screen name="Main" component={MainTabs} />
-                        <Stack.Screen name="Login" component={Login} />
-                        <Stack.Screen name="Register" component={Register} />
-                    </Stack.Navigator>
-                </NavigationContainer>
+                <CarProvider>
+                    <NavigationContainer>
+                        <Stack.Navigator screenOptions={{ headerShown: false }}>
+                            <Stack.Screen name="Main" component={MainTabs} />
+                            <Stack.Screen name="Login" component={Login} />
+                            <Stack.Screen name="Register" component={Register} />
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </CarProvider>
             </BookingProvider>
         </UserProvider>
 
