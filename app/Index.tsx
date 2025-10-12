@@ -1,16 +1,17 @@
-import { StyleSheet, Text, View, Image, ImageBackground } from "react-native";
-import { useUser } from "@/context/UserContext";
-import { useNavigation } from "@react-navigation/native";
-import TitleCard from "@/Components/TitleCard";
-import GradientNavButton from "@/Components/GradientNavButton";
-import { default_theme } from "@/styles/colors";
 import ProfileIcon from '@/assets/images/icons/ProfileIcon.svg';
-import { LinearGradient } from "expo-linear-gradient";
-import { useCar } from "@/context/CarContext";
-import { useEffect, useState } from "react";
-import { Car } from "@/types/Car";
+import GradientNavButton from "@/Components/GradientNavButton";
+import TitleCard from "@/Components/TitleCard";
 import { API } from "@/constants";
-import CarDetails from "./CarDetails";
+import { useCar } from "@/context/CarContext";
+import { useUser } from "@/context/UserContext";
+import { default_theme } from "@/styles/colors";
+import { Car } from "@/types/Car";
+import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useEffect, useState } from "react";
+import { Dimensions, Image, ImageBackground, StyleSheet, Text, View } from "react-native";
+
+const { width, height } = Dimensions.get("window");
 
 export default function Index() {
     const { user, logout } = useUser();
@@ -33,9 +34,11 @@ export default function Index() {
     return (
         <View style={styles.root}>
             <TitleCard />
-
-            <View style={styles.buttonRowView}>
-
+            <View style={styles.circleContainer}>
+                <View style={[styles.circle, styles.circle1]} />
+                <View style={[styles.circle, styles.circle2]} />
+            </View>
+            <View style={styles.buttonRowView}>            
                 <View style={styles.discoverView}>
                     <GradientNavButton
                         onPress={() => navigation.navigate("DiscoverStack")}
@@ -272,6 +275,37 @@ const styles = StyleSheet.create({
     defaultBackground: {
         padding: 5,
         height: "100%",
+    },
+    circle: {
+        position: "absolute",
+        zIndex: -10,
+        borderRadius: width * 0.5,
+    },
+    circleContainer: {
+        position: "absolute",
+        width: "100%",
+        height: "50%",
+    },
+    circle1: {
+        position: "absolute",
+        top: -width * 0.5,
+        right: -width * 0.4,
+        width: width * 1.1,
+        height: width * 1.2,
+        borderRadius: width * 0.55,
+        backgroundColor: "#007bffff",
+        opacity: 0.3,
+        transform: [{ scaleX: 1.2 }, { rotate: "25deg" }],
+    },
+    circle2: {
+        position: "absolute",
+        bottom: -width * 0.6,
+        left: -width * 0.3,
+        width: width * 1.1,
+        height: width * 1.1,
+        borderRadius: width * 10,
+        backgroundColor: "#009dffff",
+        opacity: 0.15,
     },
 });
 

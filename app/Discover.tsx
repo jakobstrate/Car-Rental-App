@@ -1,9 +1,10 @@
 import CarCard from "@/Components/CarCard";
 import ModalFilter from "@/Components/ModalFilter";
-import { useState } from "react";
-import { ScrollView, StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { useCar } from "@/context/CarContext";
+import { useRef, useState } from "react";
+import { Animated, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+const { width, height } = Dimensions.get("window");
 
 export default function Discover() {
     const { cars } = useCar();
@@ -15,6 +16,8 @@ export default function Discover() {
         color: null,
         numberOfSeats: null,
     });
+
+    const scrollY = useRef(new Animated.Value(0)).current;
 
     const handleFilterChange = (key: string, value: string | null) => {
         setFilters((prev) => ({ ...prev, [key]: value }));
@@ -32,10 +35,10 @@ export default function Discover() {
 
 
     const FilterBar = () => (
-        <View style={styles.filterContainer}>
-            <ScrollView horizontal={true} contentContainerStyle={styles.filterBarRow} showsHorizontalScrollIndicator={false}>
-                <TouchableOpacity style={styles.clearBtn} onPress={clearFilters}>
-                    <Text>Clear Filters</Text>
+        <View style={filterBarStyles.filterContainer}>
+            <ScrollView horizontal={true} contentContainerStyle={filterBarStyles.filterBarRow} showsHorizontalScrollIndicator={false}>
+                <TouchableOpacity style={filterBarStyles.clearBtn} onPress={clearFilters}>
+                    <Text style={filterBarStyles.clearBtnTxt}>Clear Filters</Text>
                 </TouchableOpacity>
 
                 <ModalFilter
@@ -78,71 +81,137 @@ export default function Discover() {
 
 
     return (
-        <View
-            style={styles.container}
+    <View style={styles.container}>
+      <FilterBar />
+      <View style={styles.scrollArea}>
+        <Animated.View
+          style={[
+            styles.circle,
+            styles.topRightCircle,
+            {
+              transform: [
+                {
+                  translateY: scrollY.interpolate({
+                    inputRange: [0, height * 4],
+                    outputRange: [0, -80],
+                    extrapolate: "clamp",
+                  }),
+                },
+              ],
+            },
+          ]}
+        />
+        <Animated.View
+          style={[
+            styles.circle,
+            styles.bottomLeftCircle,
+            {
+              transform: [
+                {
+                  translateY: scrollY.interpolate({
+                    inputRange: [0, height * 4],
+                    outputRange: [120, 20],
+                    extrapolate: "clamp",
+                  }),
+                },
+              ],
+            },
+          ]}
+        />
+        <Animated.ScrollView
+          style={styles.carScrollView}
+          contentContainerStyle={styles.carColumn}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: true }
+          )}
+          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
         >
-            <FilterBar />
-            <ScrollView horizontal={false} style={styles.carScrollView}
-                contentContainerStyle={styles.carColumn}>
-                {filteredCars.map((car) => (
-                    <CarCard
-                        key={car.id}
-                        name={car.brand + "" + car.modelName}
-                        cost={car.rentPerHour}
-                        image={car.image}
-                        car={car} />
-                ))}
-            </ScrollView>
-        </View>
-    );
+          {filteredCars.map((car) => (
+            <CarCard
+              key={car.id}
+              name={`${car.brand} ${car.modelName}`}
+              cost={car.rentPerHour}
+              image={car.image}
+              car={car}
+            />
+          ))}
+        </Animated.ScrollView>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: 40,
-    },
-
-    filterContainer: {
-        width: "100%",
-        paddingVertical: 10,
-        shadowColor: "#000",
-    },
-    filterBarRow: {
-        flexDirection: "row",
-        alignItems: "center",
-    },
-
-    clearBtn: {
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "white",
-        paddingHorizontal: 18,
-        paddingVertical: 8,
-        borderRadius: 20,
-    },
-
-    filterBtn: {
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "white",
-        paddingHorizontal: 18,
-        paddingVertical: 8,
-        borderRadius: 20,
-    },
-    filterBtnTextActive: {
-        color: "#fff",
-    },
-
-    // Car Card List
-    carScrollView: {
-        flex: 1,
-        marginTop: 10,
-    },
-    carColumn: {
-        paddingBottom: 120,
-        gap: 15,
-        alignItems: "center",
-    },
+  container: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    paddingTop: 40,
+  },
+  scrollArea: {
+    flex: 1,
+    position: "relative",
+    overflow: "hidden",
+  },
+  circle: {
+    position: "absolute",
+    backgroundColor: "#007BFF",
+    opacity: 0.5,
+  },
+  topRightCircle: {
+    top: -200, 
+    right: -width * 0.25,
+    width: width * 0.9,
+    height: width * 0.9,
+    borderRadius: width * 0.45,
+  },
+  bottomLeftCircle: {
+    bottom: -width * 0.4,
+    left: -width * 0.3,
+    width: width * 0.9,
+    height: width * 0.9,
+    borderRadius: width * 0.45,
+  },
+  carScrollView: {
+    flex: 1,
+  },
+  carColumn: {
+    paddingBottom: 120,
+    gap: 15,
+    alignItems: "center",
+    paddingTop: 20,
+  },
 });
 
+
+
+const filterBarStyles = StyleSheet.create({
+  filterContainer: {
+    paddingTop: 15,
+    position: 'absolute',
+    backgroundColor: "#ffffffff",
+    zIndex: 10,
+    elevation: 5,
+  },
+  filterBarRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  clearBtn: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    paddingHorizontal: 18,
+    paddingVertical: 8,
+    borderRadius: 20,
+    boxShadow: "0 -2px 0px #0000000a, 0 3px 2px rgba(0,0,0,0.25)",
+  },
+  clearBtnTxt: {
+    color: '#000000ff',
+    fontWeight: '600'
+  }
+});

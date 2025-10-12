@@ -28,7 +28,7 @@ const ModalFilter = (props: ModalFilterProps) => {
                 style={styles.filterBtn}
                 onPress={() => setVisible(true)}
             >
-                <Text>{selected ? selected : props.label}</Text>
+                <Text style={styles.filterBtnTxt}>{selected ? selected : props.label}</Text>
             </TouchableOpacity>
 
             <Modal
@@ -99,13 +99,17 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     filterBtn: {
-        backgroundColor: "#fff",
+        backgroundColor: '#007FFF',
         marginLeft: 10,
         borderRadius: 20,
         paddingVertical: 8,
         paddingHorizontal: 15,
+        boxShadow: "0 -2px 0px #369AFF, 0 3px 2px rgba(0,0,0,0.25)",
     },
-
+    filterBtnTxt: {
+        color: '#fff',
+        fontWeight: '600'
+    },
     modalOverlay: {
         flex: 1,
         backgroundColor: "rgba(0,0,0,0.4)",
