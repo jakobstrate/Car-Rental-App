@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     root: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "space-around",
+        justifyContent: "flex-start",
         paddingTop: 40,
         paddingHorizontal: 15,
     },
@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 20,
         height: "25%",
+        marginTop: 70,
     },
 
     discoverView: {
@@ -201,6 +202,7 @@ const styles = StyleSheet.create({
     featuredView: {
         width: "100%",
         height: "25%",
+        marginTop: 80,
     },
 
     featuredTextView: {
@@ -263,6 +265,7 @@ const styles = StyleSheet.create({
     loginView: {
         width: "80%",
         height: "8%",
+        marginTop: 60,
     },
 
     lrText: {
