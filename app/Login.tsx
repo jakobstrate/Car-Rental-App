@@ -8,7 +8,7 @@ import TitleCard from "@/Components/TitleCard";
 import { default_theme } from "@/styles/colors";
 
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 export default function Login() {
     const navigation = useNavigation();
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     inputBar: {
         alignItems: 'center',
         borderRadius: 15,
-        backgroundColor: '#EEEEEE',
+        backgroundColor: '#E8E8E8',
         width: '100%',
         marginBottom: 30,
         height: "100%",
