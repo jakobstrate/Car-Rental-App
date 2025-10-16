@@ -1,24 +1,29 @@
-import { useState } from "react";
-import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Dimensions, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface ModalFilterProps {
     label: String;
     options: string[];
+    value?: string | null;
     onSelect?: (value: string) => void;
 }
 
+const { height } = Dimensions.get("window");
+
 const ModalFilter = (props: ModalFilterProps) => {
     const [visible, setVisible] = useState(false);
-    const [selected, setSelected] = useState<string | null>(null);
+    const [selected, setSelected] = useState<string | null>(props.value ?? null);
+
+    useEffect(() => {
+        setSelected(props.value ?? null);
+    }, [props.value])
 
     const handleSelect = (option: string) => {
         setSelected((prev) => (prev === option ? null : option));
     };
 
     const handleApply = () => {
-        if (props.onSelect) {
-            props.onSelect(selected);
-        }
+        props.onSelect?.(selected ?? null);
         setVisible(false);
     };
 
@@ -28,7 +33,7 @@ const ModalFilter = (props: ModalFilterProps) => {
                 style={styles.filterBtn}
                 onPress={() => setVisible(true)}
             >
-                <Text style={styles.filterBtnTxt}>{selected ? selected : props.label}</Text>
+                <Text style={styles.filterBtnTxt}>{props.value ? props.value : props.label}</Text>
             </TouchableOpacity>
 
             <Modal
@@ -49,7 +54,11 @@ const ModalFilter = (props: ModalFilterProps) => {
 
                         <Text style={styles.modalTitle}>{props.label}</Text>
 
-                        <View style={styles.optionList}>
+                        <ScrollView
+                            style={styles.optionsScrollView}
+                            contentContainerStyle={styles.optionList}
+                            showsVerticalScrollIndicator={true}
+                        >
                             {props.options.map((option) => (
                                 <TouchableOpacity
                                     key={option}
@@ -69,8 +78,7 @@ const ModalFilter = (props: ModalFilterProps) => {
                                     </Text>
                                 </TouchableOpacity>
                             ))}
-
-                        </View>
+                        </ScrollView>
 
                         <View style={styles.buttonRow}>
                             <TouchableOpacity
@@ -131,17 +139,24 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#555",
     },
+    optionsScrollView: {
+        maxHeight: height / 2,
+        flex: 0,
+    },
 
     optionList: {
-        marginBottom: 20,
+        paddingBottom: 12,
     },
     optionButton: {
-        paddingVertical: 10,
-        paddingHorizontal: 15,
+        paddingVertical: 12,
+        paddingHorizontal: 8,
+        marginBottom: 10,
+        borderBottomWidth: 1,
         borderRadius: 8,
-        backgroundColor: "#fff",
-        marginBottom: 8,
+        backgroundColor: "#F9F9F9",
+        borderBottomColor: "#E0E0E0",
     },
+
     optionButtonSelected: {
         backgroundColor: "#007AFF33",
         borderColor: "#007AFF",
